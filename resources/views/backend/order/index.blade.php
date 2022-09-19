@@ -8,12 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Order</h1>
+                    <h1 class="m-0">Payment</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Orders</li>
+                        <li class="breadcrumb-item active">Payment</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -30,9 +30,10 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Order Number</th>
-                                <th>Order Time </th>
-                                <th>Delivery Status</th>
+                                <th>Invoice No</th>
+                                <th>Payment Time </th>
+                                <th>Method</th>
+                                <th>Amount</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
@@ -40,19 +41,11 @@
                             @forelse ($orders as $order)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
-                                <td>{{$order->order_number}}</td>
+                                <td>{{$order->invoice_no}}</td>
                                 <td>{{$order->created_at->diffForHumans()}}</td>
+                                <td>{{$order->method}}</td>
                                 <td>
-                                    @if ($order->delivery_status == 1)
-                                    <a href="{{route('DeliveryStatus',$order->id)}}"
-                                        class="btn-sm btn-danger">pending</a>
-                                    @elseif ($order->delivery_status == 2)
-                                    <a href="{{route('DeliveryStatus',$order->id)}}" class="btn-sm btn-warning">On The
-                                        way</a>
-                                    @else
-                                    <a class="btn-sm btn-success">Deliverd</a>
-
-                                    @endif
+                                    {{$order->amount}}
                                 </td>
                                 <td>
                                     <a class="btn-sm btn-primary" href="{{route('orders.show',$order->id)}}">Details</a>

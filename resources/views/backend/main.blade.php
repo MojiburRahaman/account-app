@@ -32,7 +32,7 @@ active
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Total Order</span>
+                            <span class="info-box-text">Total Payment Recieved</span>
                             <span class="info-box-number">
                                 {{$order->count()}}
                             </span>
@@ -47,8 +47,8 @@ active
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Pending Order</span>
-                            <span class="info-box-number"> {{$order->where('delivery_status',1)->count()}}</span>
+                            <span class="info-box-text">Total Earning</span>
+                            <span class="info-box-number"> ৳{{$order->sum('amount')}}</span>
                             {{-- <span class="info-box-number"> {{$order->where('delivery_status',2)->sum('subtotal')}}</span>
                             --}}
 
@@ -66,22 +66,9 @@ active
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-success elevation-1"><i class="fas fa-dollar-sign"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Sales</span>
+                            <span class="info-box-text">Today Earning</span>
                             <span class="info-box-number">
-                                ৳ {{$order->where('delivery_status',3)->sum('subtotal')}}
-                            </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Total Product</span>
-                            <span class="info-box-number">
-                               {{$product}}
+                                ৳{{$today}}
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -100,33 +87,7 @@ active
                     </div>
                     <!-- /.info-box -->
                 </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-newspaper"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Blogs</span>
-                            <span class="info-box-number">{{$Blog}}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-star"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Total Reviews</span>
-                            <span class="info-box-number">{{$ProductReview}}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-heart"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Subscribers</span>
-                            <span class="info-box-number">{{$subscribes}}</span>
-                        </div>
-                    </div>
-                </div>
+                
                 <!-- /.col -->
             </div>
             <!-- /.row -->

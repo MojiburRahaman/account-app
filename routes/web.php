@@ -32,36 +32,16 @@
         return view('dashboard');
     })->middleware(['auth'])->name('dashboard');
 
-    // socialite
-    Route::get('login/google', [SocialLoginController::class, 'GoogleLogin'])->name('GoogleLogin');
-    Route::get('register/google', [SocialLoginController::class, 'GoogleRegister'])->name('GoogleRegister');
-    Route::get('login/callback', [SocialLoginController::class, 'GoogleCallbackUrlRegister'])->name('GoogleCallbackUrlRegister');
 
-
-    // Auth::routes(['verify' => true]);
 
     // frontend route start
     Route::middleware(['HtmlMinify', 'XssFilter'])->group(function () {
 
         Route::get('/', [FrontendController::class, 'Frontendhome'])->name('Frontendhome')->middleware('auth');
+        Route::post('/submit', [FrontendController::class, 'FrontendhomeSUbmit'])->name('FrontendhomeSUbmit')->middleware('auth');
     });
 
-    // cart route end
-    // Route::middleware(['auth', 'XssFilter', 'HtmlMinify', 'checkcoustomer'])->group(function () {
-    //     // Profile route
-    //     Route::get('/profile', [UserProfileController::class, 'FrontendProfile'])->name('FrontendProfile');
-    //     Route::post('/change-password', [UserProfileController::class, 'ChangeUserPass'])->name('ChangeUserPass');
-    //     // wishlist route start
-    //     Route::get('/wishlist', [WishlistController::class, 'WishlistView'])->name('WishlistView');
-    //     Route::post('/wishlist-post', [WishlistController::class, 'WishlistPost'])->name('WishlistPost');
-    //     Route::get('/wishlist-remove/{id}', [WishlistController::class, 'WishlistRemove'])->name('WishlistRemove');
-    //     // checkout route start
-    //     Route::get('/checkout', [CheckoutController::class, 'CheckoutView'])->name('CheckoutView');
-    //     Route::post('/checkout-post', [CheckoutController::class, 'CheckoutPost'])->name('CheckoutPost');
-    //     Route::post('/checkout/billing/division_id', [CheckoutController::class, 'CheckoutajaxDivid'])->name('CheckoutajaxDivid');
-    //     Route::post('/checkout/billing/disctrict_id', [CheckoutController::class, 'CheckoutajaxDistrictid'])->name('CheckoutajaxDistrictid');
-    // });
-
+ 
 
     // Route::get('/admin/login', [DashboardController::class, 'AdminLogin'])->name('AdminLogin')->middleware('guest', 'throttle:10,5');
     // Route::post('/admin/login', [DashboardController::class, 'AdminLoginPost'])->name('AdminLoginPost')->middleware('guest', 'throttle:10,5');
@@ -72,10 +52,10 @@
         Route::post('/change-password', [DashboardController::class, 'AdminChangePasswordPost'])->name('AdminChangePasswordPost');
         Route::resource('dashboard', DashboardController::class)->except('destroy', 'update', 'edit', 'show', 'store', 'create');
         // catagory route 
-        Route::post('/catagory/mark-delete', [CatagoryController::class, 'MarkdeleteCatagory'])->name('MarkdeleteCatagory');
+        // Route::post('/catagory/mark-delete', [CatagoryController::class, 'MarkdeleteCatagory'])->name('MarkdeleteCatagory');
+        // Route::resource('/catagory', CatagoryController::class);
+        
         Route::post('/depot/mark-delete', [DepotController::class, 'MarkdeleteDepot'])->name('MarkdeleteDepot');
-        Route::resource('/catagory', CatagoryController::class);
-
         Route::resource('/depot', DepotController::class);
 
         Route::resource('/payment-method', PaymentmethodController::class);
@@ -87,16 +67,16 @@
         Route::post('/bank/mark-delete', [BankController::class, 'MarkdeleteBank'])->name('MarkdeleteBank');
 
         // product route
-        Route::get('/products/status/{id}', [ProductController::class, 'ProductStaus'])->name('ProductStaus');
-        Route::post('/products/mark-delete/', [ProductController::class, 'MarkdeleteProduct'])->name('MarkdeleteProduct');
-        Route::get('/products/edit/product-attribute-delete/{id}', [ProductController::class, 'ProducvtAtributeDelete'])->name('ProducvtAtributeDelete');
-        // Route::get('/products/edit/product-flavour-delete/{id}', [ProductController::class, 'ProductFlavourDelete'])->name('ProductFlavourDelete');
-        Route::get('/products/edit/product-image-delete/{id}', [ProductController::class, 'ProductImagesDelete'])->name('ProductImagesDelete');
-        Route::get('/products/get-sub-cat/{cat_id}', [ProductController::class, 'GetSubcatbyAjax'])->name('GetSubcatbyAjax');
-        Route::resource('/products', ProductController::class);
-        // brand route 
-        Route::post('/brand/mark-delete', [BrandController::class, 'Markdeletebrand'])->name('Markdeletebrand');
-        Route::resource('/brand', BrandController::class)->except('show');
+        // Route::get('/products/status/{id}', [ProductController::class, 'ProductStaus'])->name('ProductStaus');
+        // Route::post('/products/mark-delete/', [ProductController::class, 'MarkdeleteProduct'])->name('MarkdeleteProduct');
+        // Route::get('/products/edit/product-attribute-delete/{id}', [ProductController::class, 'ProducvtAtributeDelete'])->name('ProducvtAtributeDelete');
+        // // Route::get('/products/edit/product-flavour-delete/{id}', [ProductController::class, 'ProductFlavourDelete'])->name('ProductFlavourDelete');
+        // Route::get('/products/edit/product-image-delete/{id}', [ProductController::class, 'ProductImagesDelete'])->name('ProductImagesDelete');
+        // Route::get('/products/get-sub-cat/{cat_id}', [ProductController::class, 'GetSubcatbyAjax'])->name('GetSubcatbyAjax');
+        // Route::resource('/products', ProductController::class);
+        // // brand route 
+        // Route::post('/brand/mark-delete', [BrandController::class, 'Markdeletebrand'])->name('Markdeletebrand');
+        // Route::resource('/brand', BrandController::class)->except('show');
         //    roles route
         Route::post('/roles/reset-password', [RoleController::class, 'ResetPassPost'])->name('ResetPassPost');
         Route::get('/roles/reset-password', [RoleController::class, 'ResetPass'])->name('ResetPass');
@@ -110,26 +90,25 @@
         Route::get('orders/download-invoice/{id}', [OrderController::class, 'InvoiceDownload'])->name('InvoiceDownload');
         Route::resource('/orders', OrderController::class)->except('create', 'store', 'edit', 'destroy', 'update');
 
-        Route::get('settings/about/{id}', [SiteSettingController::class, 'SiteAbout'])->name('SiteAbout');
-        Route::post('settings/about', [SiteSettingController::class, 'SiteAboutUpdate'])->name('SiteAboutUpdate');
-        Route::get('settings/banner-status/{id}', [SiteSettingController::class, 'SiteBannerStatus'])->name('SiteBannerStatus');
-        Route::get('settings/banner-delete/{id}', [SiteSettingController::class, 'SiteBannerDelete'])->name('SiteBannerDelete');
-        Route::post('settings/banner-post', [SiteSettingController::class, 'SiteBannerPost'])->name('SiteBannerPost');
-        Route::get('settings/banner', [SiteSettingController::class, 'SiteBanner'])->name('SiteBanner');
-        Route::post('settings/subscriber', [SiteSettingController::class, 'SiteSubscriber'])->name('SiteSubscriber');
+        // Route::get('settings/about/{id}', [SiteSettingController::class, 'SiteAbout'])->name('SiteAbout');
+        // Route::post('settings/about', [SiteSettingController::class, 'SiteAboutUpdate'])->name('SiteAboutUpdate');
+        // Route::get('settings/banner-status/{id}', [SiteSettingController::class, 'SiteBannerStatus'])->name('SiteBannerStatus');
+        // Route::get('settings/banner-delete/{id}', [SiteSettingController::class, 'SiteBannerDelete'])->name('SiteBannerDelete');
+        // Route::post('settings/banner-post', [SiteSettingController::class, 'SiteBannerPost'])->name('SiteBannerPost');
+        // Route::get('settings/banner', [SiteSettingController::class, 'SiteBanner'])->name('SiteBanner');
+        // Route::post('settings/subscriber', [SiteSettingController::class, 'SiteSubscriber'])->name('SiteSubscriber');
 
-        Route::resource('/settings', SiteSettingController::class)->except('show', 'destroy', 'index', 'store');
-        Route::resource('/coupons', CouponController::class);
-        Route::resource('/color', ColorController::class)->except('show');
-        Route::resource('/size', SizeController::class)->except('show');
-        Route::resource('/flavour', FlavourController::class)->except('create', 'index', 'store', 'edit', 'show', 'destroy', 'update');
+        // Route::resource('/settings', SiteSettingController::class)->except('show', 'destroy', 'index', 'store');
+        // Route::resource('/coupons', CouponController::class);
+        // Route::resource('/color', ColorController::class)->except('show');
+        // Route::resource('/size', SizeController::class)->except('show');
+        // Route::resource('/flavour', FlavourController::class)->except('create', 'index', 'store', 'edit', 'show', 'destroy', 'update');
 
-        Route::post('blogs/ck-editor-upload', [BlogController::class, 'CkfileUpload'])->name('CkfileUpload');
-        Route::resource('/blogs', BlogController::class);
-        Route::resource('/deals', BestDealController::class)->except('edit', 'update');
+        // Route::post('blogs/ck-editor-upload', [BlogController::class, 'CkfileUpload'])->name('CkfileUpload');
+        // Route::resource('/blogs', BlogController::class);
+        // Route::resource('/deals', BestDealController::class)->except('edit', 'update');
     });
 
 
     require __DIR__ . '/auth.php';
 
-    // Auth::routes();

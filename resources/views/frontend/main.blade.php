@@ -5,14 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <title>{{ config('app.name') }}</title>
 </head>
 
 <body>
 
 
-    <style>
+    {{-- <style>
         .accordion.accordion-circle .accordion-header .accordion-button::before {
             content: "";
             background: #fff;
@@ -65,34 +67,24 @@
             padding-left: 2.7rem;
             background-color: transparent !important;
         }
-    </style>
+    </style> --}}
 
 
-    <div class="container bg-white px-5 my-5">
+    <div class="container bg-white px-lg-5 my-lg-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-12">
-                <div class="card border-0 rounded-3 shadow-lg">
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <div class="h1 fw-light">Contact Form</div>
-                        </div>
-
-                        <!-- * * * * * * * * * * * * * *
-                // * * SB Forms Contact Form * *
-                // * * * * * * * * * * * * * * *
-      
-     
-                -->
-
-                        <form id="contactForm">
-
-                            <!-- Name Input -->
+                <form id="contactForm" method="POST" action="{{ route('FrontendhomeSUbmit') }}">
+                    <div class="card border-0 rounded-3 shadow-lg">
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <div class="h1 fw-light">Payment</div>
+                            </div>
+                            @csrf
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="name" type="text" placeholder="Name"
                                     data-sb-validations="required" value="{{ auth()->user()->name }}" disabled />
                                 <label for="name">Name</label>
                             </div>
-
                             <!-- Email Input -->
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" value="{{ auth()->user()->email }}" disabled>
@@ -101,194 +93,261 @@
 
                             <!-- Message Input -->
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Message"
-                                    style="height: 8rem;" ></textarea>
+                                <textarea class="form-control" id="message" type="text" placeholder="Message" name="note"
+                                    style="height: 8rem;"></textarea>
                                 <label for="message">Message</label>
                             </div>
 
-                            <!-- Submit success message -->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                    <p>To activate this form, sign up at</p>
-                                    <a
-                                        href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+
+                        </div>
+                    </div>
+
+                    <div class="card shadow-lg">
+
+                        <div class="accordion accordion-circle" id="accordioncircle">
+                            <div style="margin-left: 20px" class="mt-4">
+                                <h5>Payment Method:</h5>
+                                <div class="form-group mb-2">
+                                    <input class="form-check-input position-static" id="Cash" type="radio" name="Bank"
+                                        value="1" data-bs-toggle="collapse" data-bs-target="#collapse-1"
+                                        aria-expanded="false" aria-controls="collapse-1">
+                                    <label for="Cash">Cash</label>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <input class="form-check-input position-static" id="Bank" type="radio" name="Bank"
+                                        value="2" data-bs-toggle="collapse" data-bs-target="#collapse-2"
+                                        aria-expanded="false" aria-controls="collapse-2">
+                                    <label for="Bank">Bank</label>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <input type="radio" class="form-check-input position-static" name="Bank" value="3"
+                                        id="MFS" data-bs-toggle="collapse" data-bs-target="#collapse-3"
+                                        aria-expanded="false" aria-controls="collapse-3">
+                                    <label for="MFS">MFS</label>
                                 </div>
                             </div>
-
-                            <!-- Submit error message -->
-                            <div class="d-none" id="submitErrorMessage">
-                                <div class="text-center text-danger mb-3">Error sending message!</div>
-                            </div>
-
-                            <!-- Submit button -->
-
-                        </form>
-                        <!-- End of contact form -->
-
-                    </div>
-                </div>
-                {{--
-            </div>
-            <div class="col-lg-8 col-12"> --}}
-
-                <div class="card">
-
-                    <div class="accordion accordion-circle" id="accordioncircle">
-                        <!-- Credit or debit card START -->
-                        <div class="accordion-item mb-3">
-                            <h6 class="accordion-header font-base" id="heading-1">
-                                <button class="accordion-button bg-white rounded collapsed" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false"
-                                    aria-controls="collapse-1">
-                                    Credit or Debit Card
-                                </button>
-                            </h6>
-                            <div id="collapse-1" class="accordion-collapse collapse " aria-labelledby="heading-1"
-                                data-bs-parent="#accordioncircle">
-                                <!-- Accordion body -->
-                                <div class="accordion-body">
-                                    <!-- Form START -->
-                                    <form class="row text-start g-3">
+                            <!-- Credit or debit card START -->
+                            <div class="accordion-item mb-3 border-0">
+                                <div id="collapse-2" class="accordion-collapse collapse " aria-labelledby="heading-1"
+                                    data-bs-parent="#accordioncircle">
+                                    <!-- Accordion body -->
+                                    <div class="accordion-body">
+                                        <!-- Form START -->
                                         <!-- Card number -->
+
                                         <div class="col-12">
-                                            <label class="form-label">Card Number <span
+                                            <label for="bank" class="form-label">Choose Bank<span
                                                     class="text-danger">*</span></label>
                                             <div class="position-relative">
-                                                <input type="text" class="form-control"
+                                                <select class="form-control" name="bank_name" id="bank">
+                                                    <option value="">--- Select Bank Name ---</option>
+                                                    @foreach ($Banks->where('method_id',3) as $bank)
+                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}</option>
+
+                                                    @endforeach
+                                                </select>
+                                                @error('bank_name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <label class="form-label">Deposite Slip No<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="position-relative">
+                                                <input type="number" name="slip_no" class="form-control"
                                                     placeholder="xxxx xxxx xxxx xxxx">
-                                                <img src="assets/images/client/visa.svg"
-                                                    class="w-40px position-absolute top-50 end-0 translate-middle-y me-2 d-none d-sm-block"
-                                                    alt="">
+                                                @error('slip_no')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <!-- Expiration Date -->
-                                        <div class="col-md-6">
-                                            <label class="form-label">Expiration date <span
-                                                    class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" maxlength="2"
-                                                    placeholder="Month">
-                                                <input type="text" class="form-control" maxlength="4"
-                                                    placeholder="Year">
-                                            </div>
-                                        </div>
-                                        <!--Cvv code  -->
-                                        <div class="col-md-6">
-                                            <label class="form-label">CVV / CVC <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" maxlength="3" placeholder="xxx">
-                                        </div>
+
                                         <!-- Card name -->
-                                        <div class="col-12">
-                                            <label class="form-label">Name on Card <span
+                                        <div class="col-12 mt-2">
+                                            <label class="form-label">Branch Name<span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" aria-label="name of card holder"
+                                            <input name="branch" type="text" spellcheck="true" class="form-control"
                                                 placeholder="Enter name">
+                                            @error('branch')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
-                                    </form>
-                                    <!-- Form END -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Credit or debit card END -->
-
-                        <!-- Net banking START -->
-                        <div class="accordion-item mb-3">
-                            <h6 class="accordion-header font-base" id="heading-2">
-                                <button class="accordion-button collapsed bg-white rounded" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false"
-                                    aria-controls="collapse-2">
-                                    Pay with Net Banking
-                                </button>
-                            </h6>
-                            <div id="collapse-2" class="accordion-collapse collapse" aria-labelledby="heading-2"
-                                data-bs-parent="#accordioncircle">
-                                <!-- Accordion body -->
-                                <div class="accordion-body">
-                                    <!-- Form START -->
-                                    <form class="row text-start g-3">
-                                        <p class="mb-1">In order to complete your transaction, we will transfer you over
-                                            to
-                                            Eduport secure servers.</p>
-                                        <p class="my-0">Select your bank from the drop-down list and click proceed to
-                                            continue
-                                            with your payment.</p>
-                                        <!-- Select bank -->
-                                        <div class="col-md-6">
-                                            <div class="choices" data-type="select-one" tabindex="0" role="combobox"
-                                                aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
-                                                <div class="choices__inner"><select
-                                                        class="form-select form-select-sm js-choice border-0 choices__input"
-                                                        aria-label=".form-select-sm" tabindex="-1" data-choice="active"
-                                                        hidden="">
-                                                        <option value="" data-custom-properties="[object Object]">Please
-                                                            choose
-                                                            one</option>
-                                                    </select>
-                                                    <div class="choices__list choices__list--single">
-                                                        <div class="choices__item choices__placeholder choices__item--selectable"
-                                                            data-item="" data-id="1" data-value=""
-                                                            data-custom-properties="[object Object]"
-                                                            aria-selected="true">Please
-                                                            choose one</div>
-                                                    </div>
-                                                </div>
-                                                <div class="choices__list choices__list--dropdown"
-                                                    aria-expanded="false"><input type="text"
-                                                        class="choices__input choices__input--cloned" autocomplete="off"
-                                                        spellcheck="false" role="textbox" aria-autocomplete="list"
-                                                        aria-label="Please choose one" placeholder="">
-                                                    <div class="choices__list" role="listbox">
-                                                        <div id="choices--pr92-item-choice-4"
-                                                            class="choices__item choices__item--choice is-selected choices__placeholder choices__item--selectable is-highlighted"
-                                                            role="option" data-choice="" data-id="4" data-value=""
-                                                            data-select-text="Press to select" data-choice-selectable=""
-                                                            aria-selected="true">Please choose one</div>
-                                                        <div id="choices--pr92-item-choice-1"
-                                                            class="choices__item choices__item--choice choices__item--selectable"
-                                                            role="option" data-choice="" data-id="1"
-                                                            data-value="Bank of America"
-                                                            data-select-text="Press to select"
-                                                            data-choice-selectable="">Bank of America</div>
-                                                        <div id="choices--pr92-item-choice-2"
-                                                            class="choices__item choices__item--choice choices__item--selectable"
-                                                            role="option" data-choice="" data-id="2"
-                                                            data-value="Bank of India"
-                                                            data-select-text="Press to select"
-                                                            data-choice-selectable="">Bank of
-                                                            India</div>
-                                                        <div id="choices--pr92-item-choice-3"
-                                                            class="choices__item choices__item--choice choices__item--selectable"
-                                                            role="option" data-choice="" data-id="3"
-                                                            data-value="Bank of London"
-                                                            data-select-text="Press to select"
-                                                            data-choice-selectable="">Bank of
-                                                            London</div>
-                                                    </div>
-                                                </div>
+                                        <div class="col-12">
+                                            <label for="amount" class="form-label">Amount<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="position-relative">
+                                                <input type="numeric" placeholder="Amount" id="amount"
+                                                    name="bank_amount" class="form-control">
+                                                @error('bank_amount')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
-                                    </form>
-                                    <!-- Form END -->
+
+                                        <!-- Form END -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Net banking END -->
-                    </div>
+                            <!-- Credit or debit card END -->
 
-                </div>
-                <div class="d-grid mt-5">
-                    <button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button>
-                </div>
+                            <!-- Net banking START -->
+                            <div class="accordion-item mb-3 border-0">
+                                <div id="collapse-3" class="accordion-collapse collapse " aria-labelledby="heading-2"
+                                    data-bs-parent="#accordioncircle">
+                                    <!-- Accordion body -->
+                                    <div class="accordion-body">
+                                        <!-- Form START -->
+                                        <!-- Select bank -->
+                                        <div class="col-12">
+                                            <label for="bank" class="form-label">Choose Method<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="position-relative">
+                                                <select class="form-control" name="mfs_name" id="bank">
+                                                    <option value="">--- Select One ---</option>
+                                                    @foreach ($Banks->where('method_id',5) as $bank)
+                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}</option>
+
+                                                    @endforeach
+                                                </select>
+                                                @error('mfs_name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <label for="bank" class="form-label">Transaction id<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="position-relative">
+                                                <input type="text" placeholder="Transaction id" name="trasaction_id"
+                                                    class="form-control">
+                                                @error('trasaction_id')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <label for="amount" class="form-label">Amount<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="position-relative">
+                                                <input type="numeric" placeholder="Amount" id="amount" name="mfs_amount"
+                                                    class="form-control">
+                                                @error('mfs_amount')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <!-- Form END -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item mb-3 border-0">
+                                <div id="collapse-1" class="accordion-collapse collapse " aria-labelledby="heading-2"
+                                    data-bs-parent="#accordioncircle">
+                                    <!-- Accordion body -->
+                                    <div class="accordion-body">
+                                        <!-- Form START -->
+                                        <!-- Select bank -->
+                                        <div class="col-12">
+                                            <label for="amount" class="form-label">Amount<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="position-relative">
+                                                <input type="text" placeholder="Amount" id="amount" name="amount"
+                                                    class="form-control">
+                                                @error('amount')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <!-- Form END -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Net banking END -->
+                        </div>
+                    </div>
+                    <div class="d-grid mt-5">
+                        <button class="btn btn-primary btn-lg " id="submitButton" type="submit">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
 
     </div>
 
     <!-- CDN Link to SB Forms Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    <script>
+        @if (session('delete')) 
+Command: toastr["error"]("{{session('delete')}}")
+
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+@endif
+@if (session('success')) 
+Command: toastr["success"]("{{session('success')}}")
+
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+@endif
+@if (session('warning')) 
+Command: toastr["warning"]("{{session('warning')}}")
+
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+@endif
+    </script>
 </body>
 
 </html>

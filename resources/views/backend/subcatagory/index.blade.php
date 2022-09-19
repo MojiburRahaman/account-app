@@ -1,11 +1,11 @@
 @extends('backend.master')
-@section('subcat_active')
+@section('bank_active')
 active
 @endsection
-@section('subcat_view-active')
+@section('bank_view-active')
 active
 @endsection
-@section('sub-cat_dropdown_active')
+@section('bank_dropdown_active')
 menu-open
 @endsection
 @section('content')
@@ -16,12 +16,12 @@ menu-open
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Sub-Catagory</h1>
+                    <h1 class="m-0">Bank</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Sub-Catagory</li>
+                        <li class="breadcrumb-item active">Bank</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -33,9 +33,9 @@ menu-open
     <section class="content">
         <div class="container-fluid">
             <div class="col-12">
-                <form action="{{route('MarkdeleteSubCatagory')}}" method="post">
+                <form action="{{route('MarkdeleteBank')}}" method="post">
                     @csrf
-                    @can('Delete Sub-Category')
+                    @can('Delete Bank')
                     <div>
                         <input type="checkbox" id="select_all"> &nbsp;
                         <label for="select_all">Select All</label> &nbsp; &nbsp;
@@ -49,8 +49,8 @@ menu-open
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Sub Catagory Name</th>
-                                    <th>Catagory Name</th>
+                                    <th> Name</th>
+                                    <th>Payment Method</th>
                                     <th>Created At</th>
                                     @if (auth()->user()->can('Edit Sub-Category') || auth()->user()->can('Delete
                                     Sub-Category'))
@@ -60,7 +60,7 @@ menu-open
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($subcatagories as $item)
+                                @forelse ($banks as $item)
 
                                 <tr>
                                     <td>
@@ -72,15 +72,15 @@ menu-open
                                     </td>
                 </form>
 
-                <td>{{$item->subcatagory_name}}</td>
-                <td>{{$item->Catagory->catagory_name}}</td>
-                <form action="{{route('subcatagory.destroy',$item->id)}}" method="post">
+                <td>{{$item->bank_name}}</td>
+                <td>{{$item->Paymentmethod->method_name}}</td>
+                <form action="{{route('bank.destroy',$item->id)}}" method="post">
                     <td>{{$item->created_at->diffForHumans()}}</td>
                     @if (auth()->user()->can('Edit Sub-Category') || auth()->user()->can('Delete
                     Sub-Category'))
                     <td>
-                        @can('Edit Sub-Category')
-                        <a style="padding: 7px 8px" href="{{route('subcatagory.edit',$item->id)}}"
+                        @can('Edit Bank')
+                        <a style="padding: 7px 8px" href="{{route('bank.edit',$item->id)}}"
                             class="btn-sm btn-primary">Edit</a>
                         @endcan
                         @csrf
@@ -98,7 +98,7 @@ menu-open
                 </tbody>
                 </table>
             </div>
-            {{$subcatagories->links()}}
+            {{$banks->links()}}
             <!-- /.card -->
         </div>
 </div>

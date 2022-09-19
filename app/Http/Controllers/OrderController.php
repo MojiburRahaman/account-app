@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\OrderDeliverdMail;
 use App\Models\Order_Summaries;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
@@ -17,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Order_Summaries::latest('id')->get();
+        $order = Payment::latest('id')->get();
         return view('backend.order.index', [
             'orders' => $order,
         ]);
@@ -30,7 +31,6 @@ class OrderController extends Controller
      */
     public function create()
     {
-      
     }
 
     /**
@@ -52,8 +52,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order_Summaries::where('id', $id)
-            ->with('billing_details', 'order_details.Product', 'order_details.Color', 'order_details.Size', 'order_details.Flavour')->first();
+        $order = Payment::findorfail($id);
         // $order=Order_Summaries::findorfail($id);
 
         return view('backend.order.show', [

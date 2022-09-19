@@ -33,7 +33,7 @@ active
                     @csrf
                     <div class="form-group">
                         <label for="color_name">User list</label>
-                      <select class="form-control @error('user_name') is-invalid  @enderror" name="user_name" id="user">
+                      <select id="user" class="form-control @error('user_name') is-invalid  @enderror" name="user_name" id="user">
                           <option value>Select User</option>
                           @foreach ($users as $user)
                           @if (auth()->user()->email != $user->email)
@@ -71,6 +71,11 @@ active
 
 @section('script_js')
 <script>
+
+$(document).ready(function() {
+    $('#user').select2();
+});
+
     @if (session('success')) 
 Command: toastr["success"]("{{session('success')}}")
 

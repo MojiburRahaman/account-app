@@ -243,147 +243,7 @@
                         @endif
 
                         {{-- Bank End --}}
-                        @if (auth()->user()->can('View Sub-Category') || auth()->user()->can('Create Sub-Category'))
-                        <li class="nav-item @yield('sub-cat_dropdown_active')">
-                            <a href="#" class="nav-link @yield('subcat_active')">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Sub-Catagory
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                @can('View Sub-Category')
-                                <li class="nav-item">
-                                    <a href="{{route('subcatagory.index')}}"
-                                        class="nav-link @yield('subcat_view-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View SubCatagory</p>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can('Create Sub-Category')
-                                <li class="nav-item">
-                                    <a href="{{route('subcatagory.create')}}"
-                                        class="nav-link @yield('subcat_add-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add SubCatagory</p>
-                                    </a>
-                                </li>
-                                @endcan
-                            </ul>
-                        </li>
-                        @endif
-                        @if (auth()->user()->can('View Brand') || auth()->user()->can('Create Brand'))
-                        <li class="nav-item @yield('brand_dropdown_active')">
-                            <a href="#" class="nav-link @yield('brand_active')">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Brands
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                @can('View Brand')
-                                <li class="nav-item">
-                                    <a href="{{route('brand.index')}}" class="nav-link @yield('brand_view-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Brands</p>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can('Create Brand')
-                                <li class="nav-item">
-                                    <a href="{{route('brand.create')}}" class="nav-link @yield('brand_add-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Brand</p>
-                                    </a>
-                                </li>
-                                @endcan
-                            </ul>
-                        </li>
-                        @endif
-                        @if (auth()->user()->can('View Product') || auth()->user()->can('Create Product'))
-                        <li class="nav-item @yield('product_dropdown_active')">
-                            <a href="#" class="nav-link @yield('product_active')">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Product
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                @can('View Product')
-                                <li class="nav-item">
-                                    <a href="{{route('products.index')}}"
-                                        class="nav-link @yield('product_view-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Products</p>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can('Create Product')
-                                <li class="nav-item">
-                                    <a href="{{route('products.create')}}"
-                                        class="nav-link @yield('product_add-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Product</p>
-                                    </a>
-                                </li>
-                                @endcan
-                            </ul>
-                        </li>
-                        @endif
-                        @if (auth()->user()->can('View Color') || auth()->user()->can('View Size'))
-                        <li class="nav-item @yield('color-size_dropdown_active')">
-                            <a href="#" class="nav-link @yield('color-size_active')">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Colors & Sizes
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                @can('View Color')
-                                <li class="nav-item">
-                                    <a href="{{route('color.index')}}" class="nav-link @yield('color_view-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Colors</p>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can('View Size')
-                                <li class="nav-item">
-                                    <a href="{{route('size.index')}}" class="nav-link @yield('size_view-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Sizes</p>
-                                    </a>
-                                </li>
-                                @endcan
-                            </ul>
-                        </li>
-                        @endif
-                        @can('View Coupon')
-                        <li class="nav-item">
-                            <a href="{{route('coupons.index')}}" class="nav-link  @yield('coupon_active')">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Coupons
-                                </p>
-                            </a>
-                        </li>
-                        @endcan
-                        @can('View Deals')
-                        <li class="nav-item">
-                            <a href="{{route('deals.index')}}" class="nav-link  @yield('deal_active')">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Deals
-                                </p>
-                            </a>
-                        </li>
-                        @endcan
-
+                       
                         @if (auth()->user()->can('Create Role') || auth()->user()->can('View Role') ||
                         auth()->user()->can('Assign User') || auth()->user()->can('Reset Password') ||
                         auth()->user()->can('Add User'))
@@ -439,46 +299,18 @@
                             </ul>
                         </li>
                         @endif
-                        @if (auth()->user()->can('Create Blog') || auth()->user()->can('View Blog'))
-                        <li class="nav-item @yield('blog_dropdown_active')">
-                            <a href="#" class="nav-link @yield('blog_active')">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Blogs
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                @can('Create Blog')
-                                <li class="nav-item">
-                                    <a href="{{route('blogs.create')}}" class="nav-link @yield('add_blog-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Create Blog</p>
-                                    </a>
-                                </li>
-                                @endcan
-                                @can('View Blog')
-                                <li class="nav-item">
-                                    <a href="{{route('blogs.index')}}" class="nav-link @yield('view_blog-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Blogs</p>
-                                    </a>
-                                </li>
-                                @endcan
-                            </ul>
-                        </li>
-                        @endif
+                       
                         @can('Order')
                         <li class="nav-item">
                             <a href="{{route('orders.index')}}" class="nav-link @yield('view_order-active')">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Order
+                                    Payment
                                 </p>
                             </a>
                         </li>
                         @endcan
-                        @if (auth()->user()->can('Setting') || auth()->user()->can('Banner') ||
+                        {{-- @if (auth()->user()->can('Setting') || auth()->user()->can('Banner') ||
                         auth()->user()->can('About'))
                         <li class="nav-item @yield('Site_setting_active')">
                             <a href="#" class="nav-link @yield('site-setting_active')">
@@ -530,7 +362,7 @@
                                 </li>
                             </ul>
                         </li>
-                        @endif
+                        @endif --}}
                         <form id="from_logout" action="{{ route('logout') }}" method="POST">
                             @csrf
                         </form>

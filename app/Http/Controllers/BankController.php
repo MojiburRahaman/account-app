@@ -64,7 +64,7 @@ class BankController extends Controller
             $bank = new Bank;
             $bank->method_id = $request->method_id;
             $bank->bank_name = strip_tags($request->bank_name);
-        
+
             $bank->save();
             return redirect()->route('bank.index')->with('success', 'Bank Created Successfully');
         } else {
@@ -126,9 +126,9 @@ class BankController extends Controller
             $bank = Bank::findorfail($id);
             $bank->method_id = $request->method_id;
             $bank->bank_name = strip_tags($request->bank_name);
-        
+
             $bank->save();
-            return redirect()->route('bank.index')->with('Warning', 'Bank Edited Successfully');
+            return redirect()->route('bank.index')->with('success', 'Bank Edited Successfully');
         } else {
             abort('404');
         }
@@ -140,14 +140,11 @@ class BankController extends Controller
      * @param  \App\Models\Bank  $bank
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bank $bank)
+    public function destroy($id)
     {
         if (auth()->user()->can('Delete Bank')) {
-
-           
-                Bank::findorfail($id)->delete();
-                return back()->with('delete', 'Bank Deleted Successfully');
-            
+            Bank::findorfail($id)->delete();
+            return back()->with('delete', 'Deleted Successfully');
         } else {
             abort('404');
         }
@@ -158,9 +155,8 @@ class BankController extends Controller
         if (auth()->user()->can('Delete Bank')) {
             if ($request->filled('delete')) {
                 foreach ($request->delete as $value) {
-                    
-                        Subcatagory::findorfail($value)->delete();
-                    
+
+                    Bank::findorfail($value)->delete();
                 }
                 return back()->with('delete', 'Bank Deleted Successfully');
             } else {

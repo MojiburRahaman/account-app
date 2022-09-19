@@ -18,7 +18,7 @@ menu-open
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">All Banks</h1>
+                    <h1 class="m-0">Add Banks</h1>
                 </div><!-- /.col -->
 
             </div><!-- /.row -->
@@ -33,7 +33,7 @@ menu-open
                 <form action="{{route('bank.store')}}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label  for="bank_name">Sub Catagory</label>
+                        <label  for="bank_name">Name</label>
                         <input id="bank_name" value="{{old('bank_name')}}" name="bank_name" type="text" placeholder="Bank Name" autocomplete="none"
                             class="form-control @error('bank_name') is-invalid                                
                             @enderror">

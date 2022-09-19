@@ -12,4 +12,8 @@ class Bank extends Model
     function Paymentmethod(){
         return  $this->belongsTo(Paymentmethod::class, 'method_id');
       }
+      function Payment()
+      {
+          return $this->hasOne(Payment::class, 'bank_name');
+      }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Newsletter;
 use App\Models\Order_Summaries;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\User;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -23,19 +25,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $order = Order_Summaries::get();
-        $Blog = Blog::count();
-        $subscribes = Newsletter::count();
-        $ProductReview = ProductReview::count();
-        $product = Product::where('status', 1)->count();
+        $today = Payment::whereDate('created_at', Carbon::today())->sum('amount');
+        $order = Payment::get();
         $user = User::role('Customer')->get()->count();
         // $user = Role::where('name', 'Customer')->count();
         return view('backend.main', [
             'order' => $order,
-            'Blog' => $Blog,
-            'subscribes' => $subscribes,
-            'ProductReview' => $ProductReview,
-            'product' => $product,
+            'today' => $today,
             'user' => $user,
         ]);
     }
