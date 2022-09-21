@@ -76,7 +76,7 @@
                 <form id="contactForm" action="{{route('coll.update',$payment->id)}}" method="POST">
                     @csrf
                     @method('put')
- 
+
                     <div class="card border-0 rounded-3 shadow-lg">
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -96,19 +96,20 @@
 
                             <!-- Message Input -->
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Message" name="note"
-                                    style="height: 8rem;">{{$payment->note}}</textarea>
+                                <textarea class="form-control" id="message" type="text" placeholder="Message"
+                                    name="note" style="height: 8rem;">{{$payment->note}}</textarea>
                                 <label for="message">Message</label>
                             </div>
                             <div class="form-group">
-                                <label  for="depot_id">Depot</label>
+                                <label for="depot_id">Depot</label>
                                 <select title="Select Depot" class="form-control  @error('depot_id') is-invalid                                
                                 @enderror" name="depot_id" id="depot_id">
                                     <option value=>Select One</option>
                                     @foreach ($depot as $depots)
-                                    <option {{($payment->depot_id == $depots->id) ? 'selected' : '' }} value="{{$depots->id}}">{{$depots->depot_name}}</option>
+                                    <option {{($payment->depot_id == $depots->id) ? 'selected' : '' }}
+                                        value="{{$depots->id}}">{{$depots->depot_name}}</option>
                                     @endforeach
-                                    
+
                                 </select>
                                 @error('depot_id')
                                 <div class="alert alert-danger">
@@ -123,36 +124,45 @@
                     <div class="card shadow-lg">
 
                         <div class="accordion accordion-circle" id="accordioncircle">
-                            <div style="margin-left: 20px" class="mt-4">
-                                <h5>Payment Method:</h5>
+                            <h5 class="ml-3 mt-4">Payment Method:</h5>
+                            <div style="margin-left: 20px" class="mt-2 ml-5">
                                 <div class="form-group mb-2">
-                                    <input class="form-check-input position-static {{$payment->method == 'Cash' ? '' : 'collapsed'}}" id="Cash" type="radio" name="Bank"
-                                        value="1" data-bs-toggle="collapse" data-bs-target="#collapse-1"
-                                        aria-expanded="{{$payment->method == 'Cash' ? 'True' : 'False'}}" aria-controls="collapse-1">
+                                    <input
+                                        class="form-check-input position-static {{$payment->method == 'Cash' ? '' : 'collapsed'}}"
+                                        id="Cash" type="radio" name="Bank" value="1" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-1" {{$payment->method == 'Cash' ? 'checked' : ''}}
+                                    aria-expanded="{{$payment->method == 'Cash' ? 'true' : 'false'}}"
+                                    aria-controls="collapse-1">
                                     <label for="Cash">Cash</label>
                                 </div>
                                 <div class="form-group mb-2">
-                                    <input class="form-check-input position-static {{$payment->method == 'Bank' ? '' : 'collapsed'}}" id="Bank" type="radio" name="Bank"
-                                        value="2" data-bs-toggle="collapse" data-bs-target="#collapse-2"
-                                        aria-expanded="{{$payment->method == 'Bank' ? 'True' : 'False'}}" aria-controls="collapse-2">
+                                    <input
+                                        class="form-check-input position-static {{$payment->method == 'Bank' ? '' : 'collapsed'}}"
+                                        id="Bank" type="radio" name="Bank" value="2" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-2" {{$payment->method == 'Bank' ? 'checked' : ''}}
+                                    aria-expanded="{{$payment->method == 'Bank' ? 'true' : 'false'}}"
+                                    aria-controls="collapse-2">
                                     <label for="Bank">Bank</label>
                                 </div>
                                 <div class="form-group mb-4">
-                                    <input type="radio" class="form-check-input position-static {{$payment->method == 'MFS' ? '' : 'collapsed'}}" name="Bank" value="3"
-                                        id="MFS" data-bs-toggle="collapse" data-bs-target="#collapse-3"
-                                        aria-expanded="{{$payment->method == 'MFS' ? 'True' : 'False'}}" aria-controls="collapse-3">
+                                    <input type="radio"
+                                        class="form-check-input position-static {{$payment->method == 'MFS' ? '' : 'collapsed'}}"
+                                        name="Bank" value="3" id="MFS" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-3" {{$payment->method == 'MFS' ? 'checked' : ''}}
+                                    aria-expanded="{{$payment->method == 'MFS' ? 'true' : 'false'}}"
+                                    aria-controls="collapse-3">
                                     <label for="MFS">MFS</label>
                                 </div>
                             </div>
                             <!-- Credit or debit card START -->
                             <div class="accordion-item mb-3 border-0">
-                                <div id="collapse-2" class="accordion-collapse collapse " aria-labelledby="heading-1"
-                                    data-bs-parent="#accordioncircle">
+                                <div id="collapse-2"
+                                    class="accordion-collapse collapse  {{$payment->method == 'Bank' ? 'show' : ''}}"
+                                    aria-labelledby="heading-1" data-bs-parent="#accordioncircle">
                                     <!-- Accordion body -->
                                     <div class="accordion-body">
                                         <!-- Form START -->
                                         <!-- Card number -->
-
                                         <div class="col-12">
                                             <label for="bank" class="form-label">Choose Bank<span
                                                     class="text-danger">*</span></label>
@@ -160,9 +170,15 @@
                                                 <select class="form-control" name="bank_name" id="bank">
                                                     <option value="">--- Select Bank Name ---</option>
                                                     @foreach ($banks->where('method_id',3) as $bank)
-                                                     @isset (json_decode($payment->details, true)['bank_name'])
-            <option  value="{{ ($bank->bank_name == NULL) ? '' : ($bank->bank_name) }}" {{ (json_decode($payment->details, true)['bank_name'] == $bank->bank_name) ? 'selected' : ''  }}>{{ $bank->bank_name == NULL ? '' : $bank->bank_name }}</option>
-@endisset
+                                                    @isset(json_decode($payment->details, true)['bank_name'])
+                                                    <option {{ (json_decode($payment->details, true)['bank_name'] ==
+                                                        $bank->bank_name) ? 'selected' : '' }} value="{{
+                                                        $bank->bank_name }}">{{ $bank->bank_name }}</option>
+                                                    @else
+                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}
+                                                    </option>
+
+                                                    @endisset
                                                     @endforeach
                                                 </select>
                                                 @error('bank_name')
@@ -170,18 +186,27 @@
                                                 @enderror
                                             </div>
                                         </div>
+
                                         <div class="col-12 mt-2">
                                             <label class="form-label">Deposite Slip No<span
                                                     class="text-danger">*</span></label>
-                                                    @isset (json_decode($payment->details, true)['slip_no'])
 
                                             <div class="position-relative">
-            <input value="{{ (json_decode($payment->details, true)['slip_no'] == NULL) ? '' : json_decode($payment->details, true)['slip_no']  }}" type="number" name="slip_no" class="form-control" placeholder="xxxx xxxx xxxx xxxx">
+                                                @isset (json_decode($payment->details, true)['slip_no'])
+                                                <input
+                                                    value="{{ (json_decode($payment->details, true)['slip_no'] == NULL) ? '' : json_decode($payment->details, true)['slip_no']  }}"
+                                                    type="number" name="slip_no" class="form-control"
+                                                    placeholder="xxxx xxxx xxxx xxxx">
+                                                @else
+                                                {{-- if value null --}}
+                                                <input type="number" name="slip_no" class="form-control"
+                                                    placeholder="xxxx xxxx xxxx xxxx">
+                                                @endisset
+
                                                 @error('slip_no')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            @endisset
                                         </div>
                                         <!-- Expiration Date -->
 
@@ -189,10 +214,16 @@
                                         <div class="col-12 mt-2">
                                             <label class="form-label">Branch Name<span
                                                     class="text-danger">*</span></label>
-                                                 @isset (json_decode($payment->details, true)['branch'])
-                                            <input value="{{ (json_decode($payment->details, true)['branch'] == NULL) ? '' : json_decode($payment->details, true)['branch']  }}"  name="branch" type="text" spellcheck="true" class="form-control"
+                                            @isset (json_decode($payment->details, true)['branch'])
+                                            <input
+                                                value="{{ (json_decode($payment->details, true)['branch'] == NULL) ? '' : json_decode($payment->details, true)['branch']  }}"
+                                                name="branch" type="text" spellcheck="true" class="form-control"
                                                 placeholder="Enter name">
-                                                @endisset
+                                            @else
+                                            <input name="branch" type="text" spellcheck="true" class="form-control"
+                                                placeholder="Enter name">
+
+                                            @endisset
                                             @error('branch')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -201,8 +232,10 @@
                                             <label for="amount" class="form-label">Amount<span
                                                     class="text-danger">*</span></label>
                                             <div class="position-relative">
-                                                <input value="{{ ($payment->bank_amount == NULL) ? '' : ($payment->bank_amount) }}" type="numeric" placeholder="Amount" id="amount"
-                                                    name="bank_amount" class="form-control">
+                                                <input
+                                                    value="{{ ($payment->method == 'Bank') ? $payment->amount : '' }}"
+                                                    type="numeric" placeholder="Amount" id="amount" name="bank_amount"
+                                                    class="form-control">
                                                 @error('bank_amount')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -217,8 +250,9 @@
 
                             <!-- Net banking START -->
                             <div class="accordion-item mb-3 border-0">
-                                <div id="collapse-3" class="accordion-collapse collapse " aria-labelledby="heading-2"
-                                    data-bs-parent="#accordioncircle">
+                                <div id="collapse-3"
+                                    class="accordion-collapse collapse  {{$payment->method == 'MFS' ? 'show' : ''}}"
+                                    aria-labelledby="heading-2" data-bs-parent="#accordioncircle">
                                     <!-- Accordion body -->
                                     <div class="accordion-body">
                                         <!-- Form START -->
@@ -230,9 +264,18 @@
                                                 <select class="form-control" name="mfs_name" id="bank">
                                                     <option value="">--- Select One ---</option>
                                                     @foreach ($banks->where('method_id',5) as $bank)
-                                                    @isset (json_decode($payment->details, true)['mfs_name'])
-<option {{ (json_decode($payment->details, true)['mfs_name'] == $bank->bank_name) ? 'selected' : ''  }} value="{{ ($bank->mfs_name == NULL) ? '' : ($bank->mfs_name) }}">{{ ($bank->mfs_name == NULL) ? '' : ($bank->mfs_name) }}</option>
-@endisset
+
+                                                    @isset(json_decode($payment->details, true)['bank_name'])
+                                                    <option {{ (json_decode($payment->details, true)['bank_name'] ==
+                                                        $bank->bank_name) ? 'selected' : '' }} value="{{
+                                                        $bank->bank_name }}">{{ $bank->bank_name }}</option>
+
+                                                    @else
+                                                    {{-- if value null --}}
+                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}
+                                                    </option>
+                                                    @endisset
+
                                                     @endforeach
                                                 </select>
                                                 @error('mfs_name')
@@ -240,12 +283,22 @@
                                                 @enderror
                                             </div>
                                         </div>
+
                                         <div class="col-12 mt-2">
                                             <label for="bank" class="form-label">Transaction id<span
                                                     class="text-danger">*</span></label>
                                             <div class="position-relative">
-                                                <input value="{{ ($payment->trasaction_id == NULL) ? '' : ($payment->trasaction_id) }}" type="text" placeholder="Transaction id" name="trasaction_id"
+                                                @isset(json_decode($payment->details, true)['trasaction_id'])
+
+                                                <input
+                                                    value="{{ json_decode($payment->details, true)['trasaction_id'] }}"
+                                                    type="text" placeholder="Transaction id" name="trasaction_id"
                                                     class="form-control">
+
+                                                @else
+                                                <input type="text" placeholder="Transaction id" name="trasaction_id"
+                                                    class="form-control">
+                                                @endisset
                                                 @error('trasaction_id')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -255,7 +308,8 @@
                                             <label for="amount" class="form-label">Amount<span
                                                     class="text-danger">*</span></label>
                                             <div class="position-relative">
-                                                <input value="{{ ($payment->mfs_amount == NULL) ? '' : ($payment->mfs_amount) }}" type="numeric" placeholder="Amount" id="amount" name="mfs_amount"
+                                                <input value="{{$payment->method == 'MFS' ? $payment->amount : ''}}"
+                                                    type="numeric" placeholder="Amount" id="amount" name="mfs_amount"
                                                     class="form-control">
                                                 @error('mfs_amount')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -267,8 +321,9 @@
                                 </div>
                             </div>
                             <div class="accordion-item mb-3 border-0">
-                                <div id="collapse-1" class="accordion-collapse collapse " aria-labelledby="heading-2"
-                                    data-bs-parent="#accordioncircle">
+                                <div id="collapse-1"
+                                    class="accordion-collapse collapse  {{$payment->method == 'Cash' ? 'show' : ''}}"
+                                    aria-labelledby="heading-2" data-bs-parent="#accordioncircle">
                                     <!-- Accordion body -->
                                     <div class="accordion-body">
                                         <!-- Form START -->
@@ -277,7 +332,9 @@
                                             <label for="amount" class="form-label">Amount<span
                                                     class="text-danger">*</span></label>
                                             <div class="position-relative">
-                                                <input value="{{ ($payment->amount == NULL) ? '' : ($payment->amount) }}" type="text" placeholder="Amount" id="amount" name="amount"
+                                                <input
+                                                    value="{{ ($payment->method == 'Cash') ? $payment->amount : '' }}"
+                                                    type="text" placeholder="Amount" id="amount" name="amount"
                                                     class="form-control">
                                                 @error('amount')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -441,8 +498,8 @@ menu-open
 
                             <!-- Message Input -->
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Message" name="note"
-                                    style="height: 8rem;"></textarea>
+                                <textarea class="form-control" id="message" type="text" placeholder="Message"
+                                    name="note" style="height: 8rem;"></textarea>
                                 <label for="message">Message</label>
                             </div>
 
@@ -490,7 +547,8 @@ menu-open
                                                 <select class="form-control" name="bank_name" id="bank">
                                                     <option value="">--- Select Bank Name ---</option>
                                                     @foreach ($Banks->where('method_id',3) as $bank)
-                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}</option>
+                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}
+                                                    </option>
 
                                                     @endforeach
                                                 </select>
@@ -555,7 +613,8 @@ menu-open
                                                 <select class="form-control" name="mfs_name" id="bank">
                                                     <option value="">--- Select One ---</option>
                                                     @foreach ($Banks->where('method_id',5) as $bank)
-                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}</option>
+                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}
+                                                    </option>
 
                                                     @endforeach
                                                 </select>

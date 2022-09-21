@@ -53,7 +53,7 @@
                                 </td>
                                 <td>
                                     
-                                    <a class="btn-sm btn-primary" href="{{route('orders.show',$payment[0]->id)}}">Details</a>
+                                    <a class="btn-sm btn-primary" href="{{route('coll.edit',$payment[0]->id)}}">edit</a>
                                     <a class="btn-sm btn-success" href="{{route('InvoiceDownload',$payment[0]->id)}}"><i
                                             class="fa fa-download"></i></a>
                                 </td>

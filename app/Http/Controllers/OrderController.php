@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+
 class OrderController extends Controller
 {
     /**
@@ -23,16 +24,16 @@ class OrderController extends Controller
         // ->select('id', 'catagory_id', 'subcatagory_name', 'created_at')
         // ->latest('id')->simplepaginate(15);
 
-    //    $order = Payment::with('Depot')->latest('id')->get();
-        
+        //    $order = Payment::with('Depot')->latest('id')->get();
+
 
         $order = DB::table('payments')
-        ->join('depots', 'payments.depot_id', '=', 'depots.id')
-        ->select('payments.*','depots.depot_name')
- 
-        // ->where('created_at', '>=', $fromDate)
-        // ->where('created_at', '<=', $toDate)
-        ->get();
+            ->join('depots', 'payments.depot_id', '=', 'depots.id')
+            ->select('payments.*', 'depots.depot_name')
+
+            // ->where('created_at', '>=', $fromDate)
+            // ->where('created_at', '<=', $toDate)
+            ->get();
         return view('backend.order.index', [
             'orders' => $order,
         ]);
@@ -138,54 +139,77 @@ class OrderController extends Controller
 
     public function indetails()
     {
+
+
+
+
+        // return     Depot::withSum(
+        //     ['payment' => function($query) {
+        //         $query->whereBetween('created_at',['2022-09-20 10:16:05','2022-09-20 10:16:38']);
+        //     }],
+        //     'amount'
+        // )->get();
+
+
+
         $order = DB::table('payments')
-        ->join('depots', 'payments.depot_id', '=', 'depots.id')
-        ->join('users', 'payments.user_id', '=', 'users.id')
-        ->select('payments.*','depots.depot_name', 'users.name')
-        
-         
- 
-        // ->where('created_at', '>=', $fromDate)
-        // ->where('created_at', '<=', $toDate)
-        ->get();
+            ->join('depots', 'payments.depot_id', '=', 'depots.id')
+            ->join('users', 'payments.user_id', '=', 'users.id')
+            ->select('payments.*', 'depots.depot_name', 'users.name')
+            // ->where('created_at', '>=', $fromDate)
+            // ->where('created_at', '<=', $toDate)
+            ->get();
         return view('backend.order.indetails', [
             'orders' => $order,
         ]);
         // $order = Payment::with('Depot')->latest('id')->get();
         // return view('backend.order.indetails', ['orders' => $order,]);
- 
 
-        
+
+
     }
 
 
-    public function searchdetails(Request $Request){
+    public function searchdetails(Request $request)
+    {
 
-        $fromDate = $Request->input('fromDate');
-        $toDate = $Request->input('toDate');
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+
+
+        // total sum qury by date range 
+
+        // $report = Depot::withSum(
+        //     ['payment' => function ($query) use ($fromDate, $toDate) {
+        //         $query->whereDate('created_at', ['2022-09-20', '2022-09-20']);
+        //     }],
+        //     'amount'
+        // )->get();
+
         $order = DB::table('payments')
-        ->join('depots', 'payments.depot_id', '=', 'depots.id')
-        ->select('payments.*','depots.depot_name')
-        ->whereBetween('payments.created_at',[date('Y-m-d',strtotime($fromDate)).' 00:00:00', $toDate.' 23:59:59'])
-        // ->where('created_at', '>=', $fromDate)
-        // ->where('created_at', '<=', $toDate)
-        ->get();
+            ->join('depots', 'payments.depot_id', '=', 'depots.id')
+            ->select('payments.*', 'depots.depot_name')
+            ->whereBetween('payments.created_at', [date('Y-m-d', strtotime($fromDate)) . ' 00:00:00', $toDate . ' 23:59:59'])
+            // ->where('created_at', '>=', $fromDate)
+            // ->where('created_at', '<=', $toDate)
+            ->get();
         //  DD($order);
         return view('backend.order.index', ['orders' => $order,]);
     }
 
-    public function searching(Request $Request){
+    public function searching(Request $Request)
+    {
 
         $fromDate = $Request->input('fromDate');
         $toDate = $Request->input('toDate');
         $order = DB::table('payments')
-        ->join('depots', 'payments.depot_id', '=', 'depots.id')
-        ->join('users', 'payments.user_id', '=', 'users.id')
-        ->select('payments.*','depots.depot_name', 'users.name')
-        ->whereBetween('payments.created_at',[date('Y-m-d',strtotime($fromDate)).' 00:00:00', $toDate.' 23:59:59'])
-        // ->where('created_at', '>=', $fromDate)
-        // ->where('created_at', '<=', $toDate)
-        ->get();
+            ->join('depots', 'payments.depot_id', '=', 'depots.id')
+            ->join('users', 'payments.user_id', '=', 'users.id')
+            ->select('payments.*', 'depots.depot_name', 'users.name')
+            ->whereBetween('payments.created_at', [date('Y-m-d', strtotime($fromDate)) . ' 00:00:00', $toDate . ' 23:59:59'])
+            // ->where('created_at', '>=', $fromDate)
+            // ->where('created_at', '<=', $toDate)
+            ->get();
         //  DD($order);
         return view('backend.order.indetails', ['orders' => $order,]);
     }

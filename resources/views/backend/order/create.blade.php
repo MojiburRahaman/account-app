@@ -120,8 +120,8 @@
                     <div class="card shadow-lg">
 
                         <div class="accordion accordion-circle" id="accordioncircle">
-                            <div style="margin-left: 20px" class="mt-4">
-                                <h5>Payment Method:</h5>
+                            <h5 class="ml-3 mt-4">Payment Method:</h5>
+                            <div style="margin-left: 20px" class="mt-2 ml-5">
                                 <div class="form-group mb-2">
                                     <input class="form-check-input position-static" id="Cash" type="radio" name="Bank"
                                         value="1" data-bs-toggle="collapse" data-bs-target="#collapse-1"

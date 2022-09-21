@@ -9,6 +9,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\View;
 use App\Models\SiteSetting;
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,9 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::share('setting', SiteSetting::first());
-        View::share('catagory_menu', Catagory::select('id','catagory_name','catagory_image','slug')->latest('id')->get());
-        View::share('brands', Brand::latest('id')->get());
+        View::share('setting', User::first());
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage)
                 ->subject(' Email Address')
