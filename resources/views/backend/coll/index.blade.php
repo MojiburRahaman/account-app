@@ -20,94 +20,45 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <section class="content">
-        <div class="container-fluid">
-        
-                <form action="{{ route('searchdetails') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="col-md-3">
-                    
-                           
-                            <div class="form-group">
-                                <input name="fromDate" id="fromDate" type="date"  class="form-control input-sm">
-                                    
-                            </div>
-         
-         
-                        
-                    </div>
-                    <div class="col-md-3">
-                        
-                        <div class="form-group">
-                            <input name="toDate" id="toDate" type="date"  class="form-control input-sm">                              
-                               
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form>
-           
-        </div>
-    </section>
+
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <div class="col-12" style=" padding: 10px; overflow: hidden;">
-                <a class="btn-sm btn-primary float-right" href="{{route('indetails')}}">In Details</a>
-            </div>
             <div class="col-12">
-               
                 <div class="card-body table-responsive p-0">
                     <table style="overflow-x:auto;" class="table  text-nowrap" id="order_table">
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Invoice No</th>
+                             {{--    <th>Invoice No</th> --}}
                                 <th>Depot Name</th>
-                                <th>Payment Time </th>
-                                <th>Method</th>
+                                <th>Payment Date </th>
+                             {{--    <th>Method</th> --}}
                                 <th>Amount</th>
                                 <th>Details</th>
-                                
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($orders as $order)
+                        <tbody> 
+                            @php($i=1)
+                            @forelse ($orders as $order)  
+                            @foreach($order->PaymentInfo($order->date) as $payment)  
                             <tr>
-                                <td>{{$loop->index+1}}</td>
-                                @isset($order->invoice_no)
-                                <td>{{$order->invoice_no}}</td>
-                                @endisset
-                                @isset($order->depot_name)
-                                 <td>{{$order->depot_name}}</td>
-                                @endisset
-                                @isset($order->created_at)
-                                <td>{{date('Y-m-d',strtotime($order->created_at))}}</td>
-                                @endisset
-                                @isset($order->method)
-                                <td>{{$order->method}}</td>
-                                @endisset
-                                @isset($order->amount)
+                                <td>{{$i++}}</td> 
+                                {{-- <td>{{$order->invoice_no}}</td> --}}
+                                 <td>{{$payment[0]->Depot->depot_name}}</td>
+                                <td>{{date('Y-m-d',strtotime($order->date))}}</td>
+                                {{-- <td>{{$order->method}}</td> --}}
                                 <td>
-                                    {{$order->amount}}
-                                     
+                                   {{ number_format($payment->sum('amount'),2) }}
                                 </td>
-                                @endisset
                                 <td>
-                                    @isset($order->id)
-                                    <a class="btn-sm btn-primary" href="{{route('orders.show',$order->id)}}">Details</a>
-                                   
-                                    <a class="btn-sm btn-success" href="{{route('InvoiceDownload',$order->id)}}"><i
+                                    
+                                    <a class="btn-sm btn-primary" href="{{route('orders.show',$payment[0]->id)}}">Details</a>
+                                    <a class="btn-sm btn-success" href="{{route('InvoiceDownload',$payment[0]->id)}}"><i
                                             class="fa fa-download"></i></a>
-                                            @endisset       
                                 </td>
-                                 {{-- <td> {{$order->sum('amount')}}</td> --}}
                             </tr>
-                           
+                            @endforeach
                             @empty
                             <tr>
                                 <td colspan="10">No Record</td>

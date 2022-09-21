@@ -16,4 +16,12 @@ class Payment extends Model
     {
         return $this->belongsTo(Bank::class, 'bank_name');
     }
+
+    function Depot(){
+        return  $this->belongsTo(Depot::class, 'depot_id');
+      }
+
+      function PaymentInfo($date){
+        return  $this->where(\DB::raw('date(created_at)'),$date)->get()->groupBy('depot_id');
+      }  
 }

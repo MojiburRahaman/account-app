@@ -260,7 +260,7 @@
             </div>
         </div>
     </div> --}}
-
+    <h1 style="font-size: 8vw; text-align:center; color:#007CC3;">Asiatic Laboratories Ltd.</h1>
     <div class="form-wrap">
         <div class="tabs">
             <h3 class="signup-tab"><a href="#signup-tab-content">Sign Up</a></h3>

@@ -17,6 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->integer('invoice_no');
             $table->foreignId('user_id')->index();
+            $table->integer('depot_id');
             $table->string('method');
             $table->string('amount');
             $table->text('note');

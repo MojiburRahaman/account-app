@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Mail\OrderDeliverdMail;
 use App\Models\Order_Summaries;
 use App\Models\Payment;
+use App\Models\Depot;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     /**
@@ -18,7 +19,20 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Payment::latest('id')->get();
+        // $sub_catagories = Subcatagory::
+        // ->select('id', 'catagory_id', 'subcatagory_name', 'created_at')
+        // ->latest('id')->simplepaginate(15);
+
+    //    $order = Payment::with('Depot')->latest('id')->get();
+        
+
+        $order = DB::table('payments')
+        ->join('depots', 'payments.depot_id', '=', 'depots.id')
+        ->select('payments.*','depots.depot_name')
+ 
+        // ->where('created_at', '>=', $fromDate)
+        // ->where('created_at', '<=', $toDate)
+        ->get();
         return view('backend.order.index', [
             'orders' => $order,
         ]);
@@ -120,5 +134,59 @@ class OrderController extends Controller
         } elseif ($status->delivery_status == 3) {
             return back();
         }
+    }
+
+    public function indetails()
+    {
+        $order = DB::table('payments')
+        ->join('depots', 'payments.depot_id', '=', 'depots.id')
+        ->join('users', 'payments.user_id', '=', 'users.id')
+        ->select('payments.*','depots.depot_name', 'users.name')
+        
+         
+ 
+        // ->where('created_at', '>=', $fromDate)
+        // ->where('created_at', '<=', $toDate)
+        ->get();
+        return view('backend.order.indetails', [
+            'orders' => $order,
+        ]);
+        // $order = Payment::with('Depot')->latest('id')->get();
+        // return view('backend.order.indetails', ['orders' => $order,]);
+ 
+
+        
+    }
+
+
+    public function searchdetails(Request $Request){
+
+        $fromDate = $Request->input('fromDate');
+        $toDate = $Request->input('toDate');
+        $order = DB::table('payments')
+        ->join('depots', 'payments.depot_id', '=', 'depots.id')
+        ->select('payments.*','depots.depot_name')
+        ->whereBetween('payments.created_at',[date('Y-m-d',strtotime($fromDate)).' 00:00:00', $toDate.' 23:59:59'])
+        // ->where('created_at', '>=', $fromDate)
+        // ->where('created_at', '<=', $toDate)
+        ->get();
+        //  DD($order);
+        return view('backend.order.index', ['orders' => $order,]);
+    }
+
+    public function searching(Request $Request){
+
+        $fromDate = $Request->input('fromDate');
+        $toDate = $Request->input('toDate');
+        $order = DB::table('payments')
+        ->join('depots', 'payments.depot_id', '=', 'depots.id')
+        ->join('users', 'payments.user_id', '=', 'users.id')
+        ->select('payments.*','depots.depot_name', 'users.name')
+        ->whereBetween('payments.created_at',[date('Y-m-d',strtotime($fromDate)).' 00:00:00', $toDate.' 23:59:59'])
+        // ->where('created_at', '>=', $fromDate)
+        // ->where('created_at', '<=', $toDate)
+        ->get();
+        //  DD($order);
+        return view('backend.order.indetails', ['orders' => $order,]);
     }
 }

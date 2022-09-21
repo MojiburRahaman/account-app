@@ -27,27 +27,33 @@
     use App\Http\Controllers\PaymentmethodController;
     use App\Http\Controllers\BankController;
     use App\Http\Controllers\Frontend\FrontendController;
+    use App\Http\Controllers\CollController;
+    use App\Http\Controllers\CollectionController;
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->middleware(['auth'])->name('dashboard');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth'])->name('dashboard');
 
 
+    // // frontend route start
+    // Route::middleware(['HtmlMinify', 'XssFilter'])->group(function () {
 
-    // frontend route start
-    Route::middleware(['HtmlMinify', 'XssFilter'])->group(function () {
+    //     Route::get('/', [FrontendController::class, 'Frontendhome'])->name('Frontendhome')->middleware('auth');
+    //     Route::post('/submit', [FrontendController::class, 'FrontendhomeSUbmit'])->name('FrontendhomeSUbmit')->middleware('auth');
+    // });
 
-        Route::get('/', [FrontendController::class, 'Frontendhome'])->name('Frontendhome')->middleware('auth');
-        Route::post('/submit', [FrontendController::class, 'FrontendhomeSUbmit'])->name('FrontendhomeSUbmit')->middleware('auth');
-    });
+    Route::get('/', function () {
+        return redirect()->route('dashboard.index');
+    })->name('Frontendhome')->middleware('auth');
 
  
 
     // Route::get('/admin/login', [DashboardController::class, 'AdminLogin'])->name('AdminLogin')->middleware('guest', 'throttle:10,5');
     // Route::post('/admin/login', [DashboardController::class, 'AdminLoginPost'])->name('AdminLoginPost')->middleware('guest', 'throttle:10,5');
     // backend route start
-    Route::middleware(['auth',  'HtmlMinify', 'checkadminpanel'])->prefix('admin')->group(function () {
 
+    Route::middleware(['auth',  'HtmlMinify', ])->prefix('admin')->group(function () {
+        Route::resource('/coll', CollController::class);
         Route::get('/change-password', [DashboardController::class, 'AdminChangePassword'])->name('AdminChangePassword');
         Route::post('/change-password', [DashboardController::class, 'AdminChangePasswordPost'])->name('AdminChangePasswordPost');
         Route::resource('dashboard', DashboardController::class)->except('destroy', 'update', 'edit', 'show', 'store', 'create');
@@ -86,10 +92,15 @@
         Route::get('/roles/assign-user', [RoleController::class, 'AssignUser'])->name('AssignUser');
         Route::resource('/roles', RoleController::class)->except('show');
         // order route
+        
+        Route::post('/orders/searchdetails', [OrderController::class, 'searchdetails'])->name('searchdetails');
+        Route::post('/orders/searching', [OrderController::class, 'searching'])->name('searching');
         Route::get('orders/status/{id}', [OrderController::class, 'DeliveryStatus'])->name('DeliveryStatus');
         Route::get('orders/download-invoice/{id}', [OrderController::class, 'InvoiceDownload'])->name('InvoiceDownload');
+        Route::get('/orders/indetails', [OrderController::class, 'indetails'])->name('indetails');
+        
         Route::resource('/orders', OrderController::class)->except('create', 'store', 'edit', 'destroy', 'update');
-
+       
         // Route::get('settings/about/{id}', [SiteSettingController::class, 'SiteAbout'])->name('SiteAbout');
         // Route::post('settings/about', [SiteSettingController::class, 'SiteAboutUpdate'])->name('SiteAboutUpdate');
         // Route::get('settings/banner-status/{id}', [SiteSettingController::class, 'SiteBannerStatus'])->name('SiteBannerStatus');

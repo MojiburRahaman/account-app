@@ -32,7 +32,7 @@ active
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Total Payment Recieved</span>
+                            <span class="info-box-text">Total Collection Recieved</span>
                             <span class="info-box-number">
                                 {{$order->count()}}
                             </span>
@@ -47,7 +47,7 @@ active
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Total Earning</span>
+                            <span class="info-box-text">Total Collections</span>
                             <span class="info-box-number"> ৳{{$order->sum('amount')}}</span>
                             {{-- <span class="info-box-number"> {{$order->where('delivery_status',2)->sum('subtotal')}}</span>
                             --}}
@@ -66,7 +66,7 @@ active
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-success elevation-1"><i class="fas fa-dollar-sign"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Today Earning</span>
+                            <span class="info-box-text">Today Collections</span>
                             <span class="info-box-number">
                                 ৳{{$today}}
                             </span>
@@ -80,7 +80,7 @@ active
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Customer</span>
+                            <span class="info-box-text">Total Users</span>
                             <span class="info-box-number">{{$user}}</span>
                         </div>
                         <!-- /.info-box-content -->

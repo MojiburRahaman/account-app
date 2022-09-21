@@ -244,6 +244,41 @@
 
                         {{-- Bank End --}}
                        
+                        {{-- Start Payment --}}
+                        @if (auth()->user()->can('View Payment') || auth()->user()->can('Create Payment'))
+                        <li class="nav-item @yield('payment_dropdown_active') ">
+                            <a href="#" class="nav-link @yield('payment_active')">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    All Collection 
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                @can('View Payment')
+
+                                <li class="nav-item">
+                                    <a href="{{route('coll.index')}}" class="nav-link  @yield('payment_view-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>View Collections</p>
+                                    </a>
+                                </li>
+                                @endcan
+                                @can('Create Payment')
+                                <li class="nav-item">
+                                    <a href="{{route('coll.create')}}" class="nav-link @yield('payment_add-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Collections</p>
+                                    </a>
+                                </li>
+                                @endcan
+                            </ul>
+                        </li>
+                        @endif
+
+                        {{-- End Payment --}}
+
+
                         @if (auth()->user()->can('Create Role') || auth()->user()->can('View Role') ||
                         auth()->user()->can('Assign User') || auth()->user()->can('Reset Password') ||
                         auth()->user()->can('Add User'))
@@ -387,6 +422,7 @@
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{asset('backend/plugins/jquery/jquery.min.js')}}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> --}}
     <!-- Bootstrap -->
     <script src="{{asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- overlayScrollbars -->
@@ -410,6 +446,16 @@
     {{-- <script src="{{asset('backend/dist/js/demo.js')}}"></script> --}}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{asset('backend/dist/js/pages/dashboard2.js')}}"></script>
+    
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+  
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+   
+
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     @yield('script_js')
 </body>
 

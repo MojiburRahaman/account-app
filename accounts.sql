@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Sep 20, 2022 at 01:38 AM
+-- Host: 127.0.0.1
+-- Generation Time: Sep 20, 2022 at 02:19 PM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `acccounts`
+-- Database: `accounts`
 --
 
 -- --------------------------------------------------------
@@ -116,7 +116,8 @@ INSERT INTO `banks` (`id`, `method_id`, `bank_name`, `created_at`, `updated_at`,
 (6, 3, 'Dutch Bangla Bank', '2022-09-19 14:32:47', '2022-09-19 14:32:47', NULL),
 (7, 3, 'Islami Bank', '2022-09-19 14:33:00', '2022-09-19 14:33:00', NULL),
 (8, 3, 'Pubali Bank', '2022-09-19 14:33:09', '2022-09-19 14:33:09', NULL),
-(9, 3, 'Aibl Bank', '2022-09-19 14:33:33', '2022-09-19 14:33:33', NULL);
+(9, 3, 'Aibl Bank', '2022-09-19 14:33:33', '2022-09-19 14:33:33', NULL),
+(10, 5, 'Nagad', '2022-09-20 00:42:50', '2022-09-20 00:42:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -471,6 +472,14 @@ CREATE TABLE `depots` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `depots`
+--
+
+INSERT INTO `depots` (`id`, `code`, `depot_name`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 1, 'Dhaka Depot', '2022-09-20 01:02:58', '2022-09-20 01:02:58', NULL),
+(4, 3, 'Rangpur Depot', '2022-09-20 01:21:31', '2022-09-20 01:21:31', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -787,6 +796,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 19),
 (1, 'App\\Models\\User', 20),
 (1, 'App\\Models\\User', 31),
+(1, 'App\\Models\\User', 45),
+(1, 'App\\Models\\User', 46),
 (2, 'App\\Models\\User', 2),
 (2, 'App\\Models\\User', 3),
 (2, 'App\\Models\\User', 4),
@@ -811,6 +822,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\Models\\User', 42),
 (2, 'App\\Models\\User', 43),
 (2, 'App\\Models\\User', 44),
+(2, 'App\\Models\\User', 47),
+(2, 'App\\Models\\User', 48),
 (4, 'App\\Models\\User', 34),
 (4, 'App\\Models\\User', 35),
 (4, 'App\\Models\\User', 36),
@@ -840,7 +853,9 @@ INSERT INTO `newsletters` (`id`, `email`, `status`, `created_at`, `updated_at`) 
 (6, 'lepuha@mailinator.com', '1', '2022-09-19 11:41:00', '2022-09-19 11:41:00'),
 (7, 'danav@mailinator.com', '1', '2022-09-19 12:24:48', '2022-09-19 12:24:48'),
 (8, 'zira@mailinator.com', '1', '2022-09-19 12:26:13', '2022-09-19 12:26:13'),
-(9, 'gyji@mailinator.com', '1', '2022-09-19 12:51:47', '2022-09-19 12:51:47');
+(9, 'gyji@mailinator.com', '1', '2022-09-19 12:51:47', '2022-09-19 12:51:47'),
+(10, 'asif@asiaticpharma.com', '1', '2022-09-20 03:52:16', '2022-09-20 03:52:16'),
+(11, 'director@asiaticpharma.com', '1', '2022-09-20 04:44:41', '2022-09-20 04:44:41');
 
 -- --------------------------------------------------------
 
@@ -951,6 +966,7 @@ CREATE TABLE `payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `invoice_no` int(11) NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `depot_id` bigint(20) UNSIGNED NOT NULL,
   `method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `note` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -963,11 +979,10 @@ CREATE TABLE `payments` (
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `invoice_no`, `user_id`, `method`, `amount`, `note`, `details`, `created_at`, `updated_at`) VALUES
-(6, 1909152, 1, 'Bank', '3453', 'Dolore optio quia c', '{\"slip_no\":\"345634636\",\"bank_name\":\"Aibl Bank\",\"branch\":\"febnaegf egqwahn\"}', '2022-09-19 17:04:44', '2022-09-19 17:04:44'),
-(7, 1909134, 1, 'Bank', '43543', '', '{\"slip_no\":\"63453453\",\"bank_name\":\"Islami Bank\",\"branch\":\"gsgds\"}', '2022-09-19 17:04:59', '2022-09-19 17:04:59'),
-(8, 1909174, 1, 'MFS', '5324534', 'dsfvsd', '{\"trasaction_id\":\"565436\",\"bank_name\":\"Rocket\"}', '2022-09-19 17:05:09', '2022-09-19 17:05:09'),
-(9, 1909112, 1, 'Cash', '43535', 'Qui asperiores eos', NULL, '2022-09-19 17:27:43', '2022-09-19 17:27:43');
+INSERT INTO `payments` (`id`, `invoice_no`, `user_id`, `depot_id`, `method`, `amount`, `note`, `details`, `created_at`, `updated_at`) VALUES
+(15, 20094590, 45, 4, 'Cash', '150', 'okkk', NULL, '2022-09-20 04:16:05', '2022-09-20 04:16:05'),
+(16, 2009458, 45, 4, 'Bank', '10000', 'ok2', '{\"slip_no\":\"46546546565\",\"bank_name\":\"Pubali Bank\",\"branch\":\"Dhaka\"}', '2022-09-20 04:16:23', '2022-09-20 04:16:23'),
+(17, 20094589, 45, 3, 'MFS', '100', 'okkk', '{\"trasaction_id\":\"151511\",\"bank_name\":\"Nagad\"}', '2022-09-20 04:16:38', '2022-09-20 04:16:38');
 
 -- --------------------------------------------------------
 
@@ -1045,7 +1060,11 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (55, 'Edit Bank', 'web', '2022-09-19 07:42:17', '2022-09-19 07:42:17'),
 (56, 'Delete Bank', 'web', '2022-09-19 07:42:17', '2022-09-19 07:42:17'),
 (57, 'Reset Password', 'web', '2022-09-19 11:01:01', '2022-09-19 11:01:01'),
-(58, 'Change Password', 'web', '2022-09-19 11:01:01', '2022-09-19 11:01:01');
+(58, 'Change Password', 'web', '2022-09-19 11:01:01', '2022-09-19 11:01:01'),
+(59, 'Create Payment', 'web', '2022-09-19 23:27:15', '2022-09-19 23:27:15'),
+(60, 'View Payment', 'web', '2022-09-19 23:27:15', '2022-09-19 23:27:15'),
+(61, 'Edit Payment', 'web', '2022-09-19 23:27:15', '2022-09-19 23:27:15'),
+(62, 'Delete Payment', 'web', '2022-09-19 23:27:16', '2022-09-19 23:27:16');
 
 -- --------------------------------------------------------
 
@@ -1286,7 +1305,11 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (55, 1),
 (56, 1),
 (57, 1),
-(58, 1);
+(58, 1),
+(59, 1),
+(60, 1),
+(61, 1),
+(62, 1);
 
 -- --------------------------------------------------------
 
@@ -6475,18 +6498,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Mojibur', 'mdsanto034@gmail.com', '2021-12-26 10:16:00', '$2y$10$kwPeTQFnAnexc8mqEfCpPehNQoJvdJR.oi.XfY8v8Jm0sz836z8O.', 'gFUpHLJC3m4JsJRcbcgGqiFYWMGlY9QWimAhsQtTp7uctqKyid2w2eKajskD', '2021-11-20 02:55:15', '2021-12-29 10:32:55'),
-(33, 'Santo', 'santo68683@gmail.com', '2022-01-09 17:26:54', '$2y$10$aRECmmLHc1/wjLsxA.OM9O07euOXZNS9tP4LqQfE6ZOyqbbYxm6s2', 'aCXV7s7J6moKhsR2KUiVgqMvpP6j3AyUhUY0Qzrai1fop5Wdeh9NWXAViiIZ', '2022-01-09 13:37:39', '2022-01-10 11:03:35'),
-(35, 'Razzak', 'bdmuscle2021@gmail.com', '2022-01-09 16:56:49', '$2y$10$kvT2hvcpenMePzno7H3R/OfLAabmn2R8KJbuDqwgvNpseaRFlr.9C', NULL, '2022-01-09 16:56:49', '2022-01-09 16:56:49'),
-(36, 'Mojibur Rahaman', 'mojibur.rahaman68683@gmail.com', '2022-02-16 13:09:58', '$2y$10$3wt4.cQFCVx1AgagZOYRNeoaJwyItZtUacoaMfrduwjZLwGTmda3i', NULL, '2022-02-16 13:09:59', '2022-02-16 13:09:59'),
-(37, 'Carissa Jensen', 'luqohemag@mailinator.com', NULL, '$2y$10$B/nyTr9yHP6GN5K9Sd.HwO/yb/x5x6xI3QK6SXS8p8RMk4unQOfny', NULL, '2022-02-25 11:07:00', '2022-02-25 11:07:00'),
-(38, 'Penelope Duncan', 'siqineha@mailinator.com', NULL, '$2y$10$BwDwmp7ZVms2zq2iQjeI/OzlDJJjCfkAGFhrcjxxmuCtofs.NWpiC', NULL, '2022-02-25 11:08:22', '2022-02-25 11:08:22'),
-(39, 'test@gmail.com', 'test@gmail.com', '2022-09-19 10:43:44', '$2y$10$4uVLK0dnTeYWb9Yff40O5.FcJWJ/a9d5DUwTS4XgudGuMxkkCi/5S', NULL, '2022-09-19 10:43:44', '2022-09-19 11:05:42'),
-(40, 'jyxemypaxo', 'lepuha@mailinator.com', NULL, '$2y$10$0MgByfD9GvDPLyl6/RnsqONw03y0opyxf2bWq9XxXVdmfy2icFqtG', NULL, '2022-09-19 11:41:00', '2022-09-19 11:41:00'),
-(41, 'lujukysijy', 'gadihu@mailinator.com', NULL, '$2y$10$3wBRXJehAAHc.blwL07d0unRXYJ632e8GK1s9tm9C/kc5k8zxNRJ2', NULL, '2022-09-19 12:24:04', '2022-09-19 12:24:04'),
-(42, 'gynynikyd', 'danav@mailinator.com', NULL, '$2y$10$wOJWDCV0beOQj.5lCHelBO.nAlfsoXezytCoG2G5BtstksBEdF.HW', NULL, '2022-09-19 12:24:43', '2022-09-19 12:24:43'),
-(43, 'najoxa', 'zira@mailinator.com', NULL, '$2y$10$c61HJzgYjyUnYXCwhvEJvuSQYey7R.Z2g.nbNRwJ88lUhx2w1lvti', NULL, '2022-09-19 12:26:13', '2022-09-19 12:26:13'),
-(44, 'wuvuhyk', 'gyji@mailinator.com', NULL, '$2y$10$azvgKbaYEknQRn3bxZPWh.eyhR/pxKRslW135Tev0NkMGG2rx/cr.', NULL, '2022-09-19 12:51:47', '2022-09-19 12:51:47');
+(45, 'Sadia', 'hop@asiaticpharma.com', '2022-09-19 22:32:05', '$2y$10$UuPOmFyq2P90euttNEe.0.Hbw94nqnx6tJ5LxuH1I3NNgQ80wgySm', 'hlToJI0aylwyo5HHN7OO43jWiEsaPXonoKHsJF2i0irm2cOA37iYbJfY5iWv', '2022-09-19 22:32:05', '2022-09-19 22:32:05'),
+(46, 'Mazhar', 'mazhar@asiaticpharma.com', '2022-09-20 00:39:57', '$2y$10$W9la2ehLx9zMxl.jk9Luj.R0dBvwydQ3GolBYpj9uqFQmgN/54gkG', NULL, '2022-09-20 00:39:57', '2022-09-20 00:39:57'),
+(47, 'asif', 'asif@asiaticpharma.com', NULL, '$2y$10$lsrR9Z9vaH6HtYVDbdz7LuGv4XVSbHCSHC4TFbgJty550xYEC433q', NULL, '2022-09-20 03:52:16', '2022-09-20 03:52:16'),
+(48, 'Drector', 'director@asiaticpharma.com', NULL, '$2y$10$.TjXFiIIVz7EOnFzavL0cOL6ZAp.bnSZOGyWUYV5Gi3UY96SGSrJC', NULL, '2022-09-20 04:44:41', '2022-09-20 04:44:41');
 
 -- --------------------------------------------------------
 
@@ -6819,7 +6834,7 @@ ALTER TABLE `attributes`
 -- AUTO_INCREMENT for table `banks`
 --
 ALTER TABLE `banks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `banners`
@@ -6903,7 +6918,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `depots`
 --
 ALTER TABLE `depots`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `districts`
@@ -6951,7 +6966,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `newsletters`
 --
 ALTER TABLE `newsletters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order__details`
@@ -6975,13 +6990,13 @@ ALTER TABLE `paymentmethods`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -7041,7 +7056,7 @@ ALTER TABLE `upazilas`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `wishlists`

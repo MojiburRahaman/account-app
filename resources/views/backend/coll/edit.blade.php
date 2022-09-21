@@ -73,7 +73,7 @@
     <div class="container bg-white px-lg-5 my-lg-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-12">
-                <form id="contactForm" method="POST" action="{{ route('coll.store') }}">
+                <form id="contactForm" method="POST" action="{{ route('coll.edit') }}">
                     <div class="card border-0 rounded-3 shadow-lg">
                         <div class="card-body p-4">
                             <div class="text-center">

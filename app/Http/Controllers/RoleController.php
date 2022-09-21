@@ -103,6 +103,12 @@ class RoleController extends Controller
             //     $permission = Permission::create(['name' => 'Edit Bank']);
             //    $permission = Permission::create(['name' => 'Delete Bank']);
 
+            
+            //   $permission = Permission::create(['name' => 'Create Payment']);
+            //   $permission = Permission::create(['name' => 'View Payment']);
+            //     $permission = Permission::create(['name' => 'Edit Payment']);
+            //    $permission = Permission::create(['name' => 'Delete Payment']);
+
             return view('backend.role.create', [
                 'Permissions' => Permission::select('name', 'id')->get()
             ]);
