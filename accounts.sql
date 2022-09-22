@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2022 at 02:19 PM
+-- Generation Time: Sep 22, 2022 at 01:53 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -966,6 +966,7 @@ CREATE TABLE `payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `invoice_no` int(11) NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `bank_id` bigint(20) UNSIGNED DEFAULT NULL,
   `depot_id` bigint(20) UNSIGNED NOT NULL,
   `method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -979,10 +980,8 @@ CREATE TABLE `payments` (
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `invoice_no`, `user_id`, `depot_id`, `method`, `amount`, `note`, `details`, `created_at`, `updated_at`) VALUES
-(15, 20094590, 45, 4, 'Cash', '150', 'okkk', NULL, '2022-09-20 04:16:05', '2022-09-20 04:16:05'),
-(16, 2009458, 45, 4, 'Bank', '10000', 'ok2', '{\"slip_no\":\"46546546565\",\"bank_name\":\"Pubali Bank\",\"branch\":\"Dhaka\"}', '2022-09-20 04:16:23', '2022-09-20 04:16:23'),
-(17, 20094589, 45, 3, 'MFS', '100', 'okkk', '{\"trasaction_id\":\"151511\",\"bank_name\":\"Nagad\"}', '2022-09-20 04:16:38', '2022-09-20 04:16:38');
+INSERT INTO `payments` (`id`, `invoice_no`, `user_id`, `bank_id`, `depot_id`, `method`, `amount`, `note`, `details`, `created_at`, `updated_at`) VALUES
+(21, 22094594, 45, NULL, 3, 'Cash', '15000', 'gg', NULL, '2022-09-22 11:43:15', '2022-09-22 11:43:15');
 
 -- --------------------------------------------------------
 
@@ -6498,7 +6497,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(45, 'Sadia', 'hop@asiaticpharma.com', '2022-09-19 22:32:05', '$2y$10$UuPOmFyq2P90euttNEe.0.Hbw94nqnx6tJ5LxuH1I3NNgQ80wgySm', 'hlToJI0aylwyo5HHN7OO43jWiEsaPXonoKHsJF2i0irm2cOA37iYbJfY5iWv', '2022-09-19 22:32:05', '2022-09-19 22:32:05'),
+(45, 'Sadia', 'hop@asiaticpharma.com', '2022-09-19 22:32:05', '$2y$10$UuPOmFyq2P90euttNEe.0.Hbw94nqnx6tJ5LxuH1I3NNgQ80wgySm', 'p9M4PHWBBokYM5yQzeDi07mE36XCeXNEZUJFoxEJdp7fLGOn2jktmc4cgMEW', '2022-09-19 22:32:05', '2022-09-19 22:32:05'),
 (46, 'Mazhar', 'mazhar@asiaticpharma.com', '2022-09-20 00:39:57', '$2y$10$W9la2ehLx9zMxl.jk9Luj.R0dBvwydQ3GolBYpj9uqFQmgN/54gkG', NULL, '2022-09-20 00:39:57', '2022-09-20 00:39:57'),
 (47, 'asif', 'asif@asiaticpharma.com', NULL, '$2y$10$lsrR9Z9vaH6HtYVDbdz7LuGv4XVSbHCSHC4TFbgJty550xYEC433q', NULL, '2022-09-20 03:52:16', '2022-09-20 03:52:16'),
 (48, 'Drector', 'director@asiaticpharma.com', NULL, '$2y$10$.TjXFiIIVz7EOnFzavL0cOL6ZAp.bnSZOGyWUYV5Gi3UY96SGSrJC', NULL, '2022-09-20 04:44:41', '2022-09-20 04:44:41');
@@ -6990,7 +6989,7 @@ ALTER TABLE `paymentmethods`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `permissions`

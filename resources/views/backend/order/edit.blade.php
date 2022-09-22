@@ -14,62 +14,6 @@
 <body>
 
 
-    {{-- <style>
-        .accordion.accordion-circle .accordion-header .accordion-button::before {
-            content: "";
-            background: #fff;
-            -webkit-box-shadow: 0 0.125rem 0.25rem rgba(29, 58, 83, 0.4);
-            box-shadow: 0 0.125rem 0.25rem rgba(29, 58, 83, 0.4);
-            width: 18px;
-            height: 18px;
-            border-radius: 100%;
-            display: block;
-            position: absolute;
-            top: 47%;
-            left: 14px;
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-            -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out;
-            z-index: 9;
-        }
-
-        .accordion.accordion-circle .accordion-header .accordion-button::after {
-            content: "";
-            background: #066ac9;
-            width: 12px;
-            height: 12px;
-            border-radius: 100%;
-            display: block;
-            position: absolute;
-            top: 47%;
-            left: 17px;
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-            -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out;
-            z-index: 9;
-        }
-
-        .accordion.accordion-circle .accordion-header .accordion-button[aria-expanded="false"]::after {
-            visibility: hidden !important;
-        }
-
-        .accordion.accordion-circle .accordion-header .accordion-button[aria-expanded="true"]::after {
-            visibility: visible;
-        }
-
-        .accordion.accordion-circle .accordion-header .accordion-button {
-            background: transparent;
-            color: #24292d;
-            border: none;
-            font-size: inherit;
-            padding-left: 2.7rem;
-            background-color: transparent !important;
-        }
-    </style> --}}
-
-
     <div class="container bg-white px-lg-5 my-lg-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-12">
@@ -170,18 +114,18 @@
                                                 <select class="form-control" name="bank_name" id="bank">
                                                     <option value="">--- Select Bank Name ---</option>
                                                     @foreach ($banks->where('method_id',3) as $bank)
-                                                    @isset(json_decode($payment->details, true)['bank_name'])
-                                                    <option {{ (json_decode($payment->details, true)['bank_name'] ==
-                                                        $bank->bank_name) ? 'selected' : '' }} value="{{
-                                                        $bank->bank_name }}">{{ $bank->bank_name }}</option>
+                                                    @isset($payment->bank_id)
+                                                    <option {{ (($payment->bank_id) ==
+                                                        $bank->id) ? 'selected' : '' }} value="{{
+                                                        $bank->id }}">{{ $bank->bank_name }}</option>
                                                     @else
-                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}
+                                                    <option value="{{ $bank->id }}">{{ $bank->bank_name }}
                                                     </option>
 
                                                     @endisset
                                                     @endforeach
                                                 </select>
-                                                @error('bank_name')
+                                                @error('bank_id')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -265,14 +209,14 @@
                                                     <option value="">--- Select One ---</option>
                                                     @foreach ($banks->where('method_id',5) as $bank)
 
-                                                    @isset(json_decode($payment->details, true)['bank_name'])
-                                                    <option {{ (json_decode($payment->details, true)['bank_name'] ==
-                                                        $bank->bank_name) ? 'selected' : '' }} value="{{
-                                                        $bank->bank_name }}">{{ $bank->bank_name }}</option>
+                                                    @isset($payment->bank_id)
+                                                    <option {{ ($payment->bank_id ==
+                                                        $bank->id) ? 'selected' : '' }} value="{{
+                                                        $bank->id }}">{{ $bank->bank_name }}</option>
 
                                                     @else
                                                     {{-- if value null --}}
-                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}
+                                                    <option value="{{ $bank->id }}">{{ $bank->bank_name }}
                                                     </option>
                                                     @endisset
 

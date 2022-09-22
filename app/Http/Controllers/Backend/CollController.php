@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Models\Coll;
 use Illuminate\Http\Request;
 use App\Models\Bank;
@@ -31,6 +32,18 @@ class CollController extends Controller
         return view('backend.order.index', [
             'orders' => $order,
         ]);*/
+
+
+        // return $order = Payment::with('Depot')->select('depot_id')
+        // ->distinct() 
+        // ->selectRaw('sum(amount) as sum')
+
+        // ->whereBetween('payments.created_at', [date('Y-m-d', strtotime('2022-09-20 00:00:00')) . ' 00:00:00', '2022-09-20 23:59:59'. ' 23:59:59'])
+        // ->groupBy('depot_id')// ->whereBetween('created_at', ['2022-09-20 00:00:00', '2022-09-20 23:59:59'])
+        // ->get();
+        //         ->groupBy('depot_id')
+        //    ->selectRaw('sum(amount) as sum, depot_id')
+        //    ->pluck('sum','depot_id');
         $order = Payment::with('Depot')->select(\DB::raw('DATE(created_at) as date'))
             /*->whereBetween('created_at',[date('Y-m-d',strtotime($fromdate)).' 00:00:00', $todate.' 23:59:59'])*/
             ->whereBetween('created_at', ['2022-09-20 00:00:00', '2022-09-21 23:59:59'])
@@ -105,17 +118,16 @@ class CollController extends Controller
 
                 $detail = [
                     'trasaction_id' => $request->trasaction_id,
-                    'bank_name' => $request->mfs_name,
                 ];
 
                 $payemnt = new Payment;
                 $payemnt->user_id = auth()->id();
+                $payemnt->bank_id = $request->mfs_name;
                 $payemnt->invoice_no = $invoice_no;
                 $payemnt->method = 'MFS';
                 $payemnt->amount = $request->mfs_amount;
                 $payemnt->note = $request->note;
                 $payemnt->depot_id = $request->depot_id;
-
                 $payemnt->details = json_encode($detail);
                 $payemnt->save();
                 return redirect()->route('coll.create')->with('success', 'Payment Successfull');
@@ -137,12 +149,12 @@ class CollController extends Controller
 
                 $detail = [
                     'slip_no' => $request->slip_no,
-                    'bank_name' => $request->bank_name,
                     'branch' => $request->branch,
                 ];
 
                 $payemnt = new Payment;
                 $payemnt->user_id = auth()->id();
+                $payemnt->bank_id = $request->bank_name;
                 $payemnt->invoice_no = $invoice_no;
                 $payemnt->method = 'Bank';
                 $payemnt->amount = $request->bank_amount;
@@ -212,6 +224,7 @@ class CollController extends Controller
 
             $payemnt->user_id = auth()->id();
             $payemnt->invoice_no = $invoice_no;
+            $payemnt->bank_id = Null;
             $payemnt->method = 'Cash';
             $payemnt->amount = $request->amount;
             $payemnt->note = $request->note;
@@ -223,7 +236,7 @@ class CollController extends Controller
         if ($request->Bank == 3) {
             $request->validate([
                 'mfs_amount' => ['required', 'numeric'],
-                'mfs_name' => ['required', 'string'],
+
                 'trasaction_id' => ['nullable', 'string'],
             ], [
                 'mfs_name.required' => 'Please Choose One method',
@@ -232,10 +245,11 @@ class CollController extends Controller
 
             $detail = [
                 'trasaction_id' => $request->trasaction_id,
-                'bank_name' => $request->mfs_name,
+
             ];
 
             $payemnt->user_id = auth()->id();
+            $payemnt->bank_id = $request->mfs_name;
             $payemnt->invoice_no = $invoice_no;
             $payemnt->method = 'MFS';
             $payemnt->amount = $request->mfs_amount;
@@ -263,11 +277,11 @@ class CollController extends Controller
 
             $detail = [
                 'slip_no' => $request->slip_no,
-                'bank_name' => $request->bank_name,
                 'branch' => $request->branch,
             ];
 
             $payemnt->user_id = auth()->id();
+            $payemnt->bank_id = $request->bank_name;
             $payemnt->invoice_no = $invoice_no;
             $payemnt->method = 'Bank';
             $payemnt->amount = $request->bank_amount;
@@ -290,5 +304,26 @@ class CollController extends Controller
     public function destroy(Coll $coll)
     {
         //
+    }
+
+    public function  depotwisetotal()
+    {
+        return view('backend.coll.depotwisetotal');
+    }
+    public function  depotwisetotalsearch(Request $Request)
+    {
+
+        $fromDate = $Request->input('fromDate');
+        $toDate = $Request->input('toDate');
+        $order = Depot::withSum(
+            ['payment' => function ($query) use ($fromDate, $toDate) {
+                $query->whereBetween('created_at', [date('Y-m-d', strtotime($fromDate)) . ' 00:00:00', $toDate . ' 23:59:59']);
+            }],
+            'amount'
+        )->get();
+
+        return view('backend.coll.depotwisetotal', [
+            'orders' => $order,
+        ]);
     }
 }

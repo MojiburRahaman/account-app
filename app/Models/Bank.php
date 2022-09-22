@@ -14,6 +14,6 @@ class Bank extends Model
       }
       function Payment()
       {
-          return $this->hasOne(Payment::class, 'bank_name');
+          return $this->hasOne(Payment::class, 'bank_id');
       }
 }

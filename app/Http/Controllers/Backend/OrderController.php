@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
 
 use App\Mail\OrderDeliverdMail;
 use App\Models\Order_Summaries;
@@ -68,8 +71,6 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Payment::findorfail($id);
-        // $order=Order_Summaries::findorfail($id);
-
         return view('backend.order.show', [
             'order' => $order,
         ]);

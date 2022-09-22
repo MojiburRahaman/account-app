@@ -103,6 +103,8 @@
                                    
                                     <a class="btn-sm btn-success" href="{{route('InvoiceDownload',$order->id)}}"><i
                                             class="fa fa-download"></i></a>
+                                    
+                                            <a class="btn-sm btn-success" href="{{route('coll.edit',$order->id)}}">Edit</a>
                                             @endisset       
                                 </td>
                                  {{-- <td> {{$order->sum('amount')}}</td> --}}

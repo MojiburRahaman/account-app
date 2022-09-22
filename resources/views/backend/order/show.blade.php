@@ -144,7 +144,7 @@
                                 <tr>
                                     <th>User Name</th>
                                     <th>Method</th>
-                                    @isset(json_decode($order->details, true)['bank_name'])
+                                    @isset($order->Bank->bank_name)
 
                                     <th>Bank Name</th>
                                     @endisset
@@ -161,9 +161,9 @@
                                 <tr>
                                     <td>{{ $order->User->name }}</td>
                                     <td>{{ $order->method }}</td>
-                                    @isset(json_decode($order->details, true)['bank_name'])
+                                    @isset($order->Bank->bank_name)
 
-                                    <td>{{ json_decode($order->details, true)['bank_name'] }} </td>
+                                    <td>{{ $order->Bank->bank_name}} </td>
                                     @endisset
                                     @isset (json_decode($order->details, true)['trasaction_id'])
                                     <td>{{ json_decode($order->details, true)['trasaction_id'] }} </td>
@@ -179,8 +179,6 @@
                     </div>
 
                 </div>
-
-
         </div>
     </section>
 

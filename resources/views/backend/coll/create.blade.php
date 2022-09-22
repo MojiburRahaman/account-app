@@ -154,14 +154,14 @@
                                             <label for="bank" class="form-label">Choose Bank<span
                                                     class="text-danger">*</span></label>
                                             <div class="position-relative">
-                                                <select class="form-control" name="bank_name" id="bank">
+                                                <select class="form-control" name="bank_id" id="bank">
                                                     <option value="">--- Select Bank Name ---</option>
                                                     @foreach ($Banks->where('method_id',3) as $bank)
-                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}</option>
+                                                    <option value="{{ $bank->id }}">{{ $bank->bank_name }}</option>
 
                                                     @endforeach
                                                 </select>
-                                                @error('bank_name')
+                                                @error('bank_id')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -222,7 +222,7 @@
                                                 <select class="form-control" name="mfs_name" id="bank">
                                                     <option value="">--- Select One ---</option>
                                                     @foreach ($Banks->where('method_id',5) as $bank)
-                                                    <option value="{{ $bank->bank_name }}">{{ $bank->bank_name }}</option>
+                                                    <option value="{{ $bank->id }}">{{ $bank->bank_name }}</option>
 
                                                     @endforeach
                                                 </select>

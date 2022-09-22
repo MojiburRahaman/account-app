@@ -24,6 +24,10 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <div class="col-12" style=" padding: 10px; overflow: hidden;">
+                <a class="btn-sm btn-primary float-right" href="{{route('depotwisetotal')}}">Depot wise</a>
+            </div>
+           
             <div class="col-12">
                 <div class="card-body table-responsive p-0">
                     <table style="overflow-x:auto;" class="table  text-nowrap" id="order_table">
